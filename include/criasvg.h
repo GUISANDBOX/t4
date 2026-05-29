@@ -4,7 +4,6 @@
 #include "quadra.h"
 #include <stdio.h>
 
-
 /// @brief Desenha uma quadra no arquivo SVG
 /// @param q quadra a ser desenhada
 /// @param arq arquivo SVG a ser desenhado

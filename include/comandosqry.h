@@ -3,11 +3,11 @@
 #include "hashfile.h"
 #include <stdio.h>
 
-
-/********** Funções para processar os comandos do arquivo .qry **********/
-
 void processaQry(FILE *arqqry, HashFile Hgeo, FILE *arqtxt, FILE *arqsvg);
-// processa os comandos do arquivo .qry e adiciona os elementos no hashfile e
-// gera o arquivo .svg
+/// @brief Processa os comandos do arquivo .qry e gera o arquivo .svg
+/// @param arqqry Arquivo .qry
+/// @param Hgeo Hashfile das quadras
+/// @param arqtxt Arquivo .txt
+/// @param arqsvg Arquivo .svg
 
 #endif

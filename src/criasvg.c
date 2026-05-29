@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 void desenhaSVGQuadra(Quadra q, FILE *arq) {
   fprintf(arq,
           "<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height=\"%lf\" "

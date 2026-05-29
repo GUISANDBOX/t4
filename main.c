@@ -59,13 +59,13 @@ char *getNomeArquivoSemExtensao(const char *caminhoCompleto) {
 
 int main(int argc, char *argv[]) {
   char dir[PATH_LEN], bed[PATH_LEN], arq[FILE_NAME_LEN],
-      arqquery[FILE_NAME_LEN], arqv[FILE_NAME_LEN], dirsaidaqry[PATH_LEN],
+      arqquery[FILE_NAME_LEN], arqvia[FILE_NAME_LEN], dirsaidaqry[PATH_LEN],
       dirsaida[PATH_LEN], dirsaidabase[PATH_LEN];
   char *fullNameArq;
 
   int z;
   int temquery = 0;
-  int tempm = 0;
+  int temvia = 0;
   int temf = 0;
   int temo = 0;
   int teme = 0;
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[i], "-v") == 0) {
       i++;
       /* se i >= argc: ERRO-falta parametro */
-      trataNomeArquivo(arqv, FILE_NAME_LEN, argv[i]);
+      trataNomeArquivo(arqvia, FILE_NAME_LEN, argv[i]);
       temv = 1;
     }
     i++;
@@ -144,17 +144,17 @@ int main(int argc, char *argv[]) {
   processaGeo(arqgeo, hashQuadra, arqnovo);
 
   if (temv) {
-    char dirpm[PATH_LEN];
-    strcpy(dirpm, bed);
-    strcat(dirpm, "/");
-    strcat(dirpm, arqv);
-    FILE *arqv_file = fopen(dirpm, "r");
-    if (!arqv_file) {
-      printf("Erro ao abrir o arquivo de vertices %s\n", dirpm);
+    char dirvia[PATH_LEN];
+    strcpy(dirvia, bed);
+    strcat(dirvia, "/");
+    strcat(dirvia, arqvia);
+    FILE *arqvia_file = fopen(dirvia, "r");
+    if (!arqvia_file) {
+      printf("Erro ao abrir o arquivo viário %s\n", dirvia);
       return 1;
     }
-    processaVertices(arqv_file);
-    fclose(arqv_file);
+    processaVia(arqvia_file);
+    fclose(arqvia_file);
   }
 
   fclose(arqgeo);
