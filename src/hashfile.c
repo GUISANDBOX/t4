@@ -188,8 +188,6 @@ static int writeRecordToBucket(sHashFile *hashFile, HashItem item,
 
   int maxRecords = bucketCapacity(hashFile);
   if (bucketMeta.numRecords >= maxRecords) {
-    printf("Bucket %d cheio, numRecords=%d, max=%d\n", bucketIndex,
-           bucketMeta.numRecords, maxRecords);
     return 0;
   }
 
@@ -533,7 +531,6 @@ int adicionarHashItem(HashFile *hash, HashItem item, char *key) {
     }
 
     if (bucketMeta.localDepth == hashFile->header.globalDepth) {
-      printf("Tentando expandir directory\n");
       if (!expandDirectory(hashFile)) {
         printf("Erro: falha ao expandir directory\n");
         return 0;
@@ -644,7 +641,6 @@ HashItem buscarHashItem(HashFile hash, char *key) {
   size_t keyLength = strlen(key) + 1;
 
   for (int i = 0; i < bucketMeta.numRecords; i++) {
-    printf("buscarHashItem: i=%d, currentPosition=%ld\n", i, currentPosition);
     if (fseek(hashFile->file, currentPosition, SEEK_SET) != 0) {
       printf("buscarHashItem: fseek failed\n");
       break;

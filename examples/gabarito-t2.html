@@ -1,0 +1,87 @@
+<!DOCTYPE html"><HTML>
+<HEAD>
+
+<style> 
+        /* Estilos basicos para as imagens */
+        img {
+            display: block;  
+            margin-left: 5px;  
+            margin-right: auto;  
+            max-width: 100%;
+            border: 2px solid #ccc;
+            width: 100%; 
+            height: auto; 
+        }
+
+        /* Classe para esconder a imagem */
+        .hidden {
+            opacity: 0; /* Torna a imagem transparente */
+            visibility: hidden; /* Garante que a imagem nao ocupe espaco e nao seja interativa */
+            pointer-events: none; /* Desativa eventos de mouse quando invisivel */
+        }
+
+        h2 {
+            cursor: pointer; 
+            color: #0056b3;
+            transition: color 0.3s ease;
+        }
+
+        h2:hover {
+            color: #007bff;
+        }
+
+        /* Classe para esconder elementos */
+        .esconder {
+            display: none; /* Remove o elemento do fluxo do documento */
+        }
+
+      @media print {img {page-break-after: always;}} 
+    </style>
+</HEAD>
+<BODY>
+<h1>ATENCAO:</h1> esta pagina nao prove as respostas dos testes, mas ilustra as consultas a fim de facilitar o entedimento da saida esperada.Esta pagina nao prove as respostas dos testes, mas ilustra as consultas a fim de facilitar o entedimento da saida esperada.<H1 id="h-1">[1] c1</H1>
+<IMG id="i-1" SRC=".\c1.svg" NAME="c1" />
+<H1 id="h-2">[2] c2</H1>
+<IMG id="i-2" SRC=".\c2.svg" NAME="c2" />
+<H1 id="h-3">[3] c3</H1>
+<IMG id="i-3" SRC=".\c3.svg" NAME="c3" />
+
+<script>
+// Esta funcao sera' chamada ao clicar em um titulo
+function toggleVisibilidade(tituloId) {
+    // Extrai o numero do ID (ex: "30" de "titulo-imagem-30")
+    const numeroId = tituloId.replace('h-', '');
+
+    // Constroi os IDs do paragrafo e da imagem correspondentes
+    const paragrafoId = 'p-' + numeroId;
+    const imagemId = 'i-' + numeroId;
+
+    // Seleciona os elementos
+    const paragrafo = document.getElementById(paragrafoId);
+    const imagem = document.getElementById(imagemId);
+
+    // Alterna a classe 'esconder' nos elementos, se existirem
+    if (paragrafo) {
+        paragrafo.classList.toggle('esconder');
+    }
+    if (imagem) {
+        imagem.classList.toggle('esconder');
+    }
+}
+
+// Adiciona um ouvinte de evento de clique a todos os titulos
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os H2 que comecam com "titulo-imagem-"
+    const titulos = document.querySelectorAll('h2[id^="h-"]');
+
+    titulos.forEach(function(titulo) {
+        titulo.addEventListener('click', function() {
+            // Chama a funcao passando o ID do titulo clicado
+            toggleVisibilidade(this.id);
+        });
+    });
+});
+</script> 
+
+  </BODY>
+</HTML>
