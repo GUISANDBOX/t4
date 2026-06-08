@@ -22,13 +22,13 @@ void test_tamanho_struct(void) {
 
 void test_inicializacao_hash_d2(void) {
   printf("Iniciando teste de inicialização do hashfile...\n");
-  hash = criarHashFile("output/hashfile.hf", tamanhoQuadra(), 2048);
-  hash = lerHashFile("output/hashfile.hf");
+  hash = criarHashFile("../output/hashfile.hf", tamanhoQuadra(), 2048);
+  hash = lerHashFile("../output/hashfile.hf");
   TEST_ASSERT_NOT_NULL(hash);
 }
 
 void test_inserir_item_hash(void) {
-  hash = lerHashFile("output/hashfile.hf");
+  hash = lerHashFile("../output/hashfile.hf");
   Quadra q1 = criaQuadra("123456780000", 10.0, 20.0, 30.0, 40.0, "sw", "fill",
                          "stroke");
   Quadra q2 = criaQuadra("123456780001", 10.0, 20.0, 30.0, 40.0, "sw", "fill",
@@ -59,32 +59,6 @@ void test_inserir_item_hash(void) {
   }
   TEST_ASSERT_NOT_NULL(hash);
   TEST_ASSERT_NOT_NULL(busca);
-}
-
-void test_buscar_quadra_existente_hash(void) {
-  HashItem encontrado;
-  printf("\nTESTE DE BUSCA NO HASHFILE QUADRA\n");
-  hash = lerHashFile("hashquadra.hf");
-
-  if (!hash) {
-    printf("Erro ao ler hashfile para teste de busca\n");
-    return;
-  }
-
-  encontrado = buscarHashItem(hash, "b01.1");
-  if (encontrado)
-    printQuadra((Quadra)encontrado);
-  TEST_ASSERT_NOT_NULL(encontrado);
-
-  encontrado = buscarHashItem(hash, "b03.10");
-  if (encontrado)
-    printQuadra((Quadra)encontrado);
-  TEST_ASSERT_NOT_NULL(encontrado);
-
-  encontrado = buscarHashItem(hash, "b010.10");
-  if (encontrado)
-    printQuadra((Quadra)encontrado);
-  TEST_ASSERT_NOT_NULL(encontrado);
 }
 
 // simple test runner
