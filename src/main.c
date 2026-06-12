@@ -143,6 +143,8 @@ int main(int argc, char *argv[]) {
 
   processaGeo(arqgeo, hashQuadra, arqnovo);
 
+  Grafo grafo = NULL;
+
   if (temv) {
     char dirvia[PATH_LEN];
     strcpy(dirvia, bed);
@@ -153,7 +155,7 @@ int main(int argc, char *argv[]) {
       printf("Erro ao abrir o arquivo viário %s\n", dirvia);
       return 1;
     }
-    processaVia(arqvia_file);
+    grafo = processaVia(arqvia_file);
     fclose(arqvia_file);
   }
 

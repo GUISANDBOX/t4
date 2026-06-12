@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void processaQry(FILE *arqqry, HashFile Hgeo, FILE *arqtxt, FILE *arqsvg) {
+void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *arqsvg) {
   char comando[100];
   int z;
   char reg[10], cep[100], reg1[10], reg2[10], cc[100], cr[100];
