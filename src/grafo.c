@@ -7,6 +7,7 @@
 #define TAM_CEP 64
 #define TAM_RUA 128
 
+
 typedef struct sAresta *Aresta;
 
 struct sAresta {
@@ -43,6 +44,7 @@ struct sGrafo {
 };
 
 typedef struct sGrafo *GrafoInterno;
+
 
 static void copiaString(char *destino, const char *origem, int tamanho) {
   if (origem == NULL) {
@@ -248,4 +250,95 @@ void liberaGrafo(Grafo grafo) {
 
     free(g->vertices);
     free(g);
+}
+
+int buscaIndiceVertice(Grafo grafo, const char *id) {
+    if (grafo == NULL || id == NULL) {
+        return -1;
+    }
+
+    struct sGrafo *g = (struct sGrafo *) grafo;
+
+    for (int i = 0; i < g->qtdVertices; i++) {
+        if (strcmp(g->vertices[i].id, id) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+int verticeMaisProximo(Grafo grafo, double x, double y) {
+    if (grafo == NULL) {
+        return -1;
+    }
+
+    struct sGrafo *g = (struct sGrafo *) grafo;
+
+    int melhor = -1;
+    double menorDist = 0;
+
+    for (int i = 0; i < g->qtdVertices; i++) {
+        double dx = x - g->vertices[i].x;
+        double dy = y - g->vertices[i].y;
+        double dist = dx * dx + dy * dy;
+
+        if (melhor == -1 || dist < menorDist) {
+            melhor = i;
+            menorDist = dist;
+        }
+    }
+
+    return melhor;
+}
+
+int getQuantidadeVertices(Grafo g) {
+    if (g == NULL) {
+        return 0;
+    }
+
+    struct sGrafo *grafo = (struct sGrafo *) g;
+    return grafo->qtdVertices;
+}
+
+char *getIdVertice(Grafo g, int indice) {
+    if (g == NULL || indice < 0) {
+        return NULL;
+    }
+
+    struct sGrafo *grafo = (struct sGrafo *) g;
+
+    if (indice >= grafo->qtdVertices) {
+        return NULL;
+    }
+
+    return grafo->vertices[indice].id;
+}
+
+double getXVertice(Grafo g, int indice) {
+    if (g == NULL || indice < 0) {
+        return 0;
+    }
+
+    struct sGrafo *grafo = (struct sGrafo *) g;
+
+    if (indice >= grafo->qtdVertices) {
+        return 0;
+    }
+
+    return grafo->vertices[indice].x;
+}
+
+double getYVertice(Grafo g, int indice) {
+    if (g == NULL || indice < 0) {
+        return 0;
+    }
+
+    struct sGrafo *grafo = (struct sGrafo *) g;
+
+    if (indice >= grafo->qtdVertices) {
+        return 0;
+    }
+
+    return grafo->vertices[indice].y;
 }

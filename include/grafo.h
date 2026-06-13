@@ -5,6 +5,9 @@
 
 typedef void *Grafo;
 
+
+
+
 Grafo criaGrafo(int capacidadeVertices);
 
 int adicionaVertice(Grafo g, const char *id, double x, double y);
@@ -16,5 +19,21 @@ int adicionaAresta(Grafo g, const char *idOrigem, const char *idDestino,
 void imprimeGrafo(Grafo g);
 
 void liberaGrafo(Grafo g);
+
+int buscaIndiceVertice(Grafo g, const char *id);
+
+int verticeMaisProximo(
+    Grafo g,
+    double x,
+    double y
+);
+
+int getQuantidadeVertices(Grafo g);
+
+char *getIdVertice(Grafo g, int indice);
+double getXVertice(Grafo g, int indice);
+double getYVertice(Grafo g, int indice);
+
+
 
 #endif

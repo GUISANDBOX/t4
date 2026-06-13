@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "registrador.h"
+#include "grafo.h"
 
 void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *arqsvg) {
   char comando[100];
@@ -13,6 +15,7 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
   char face;
   int num;
   double v, x, y, w, h, vl;
+  Registradores regs = criaRegistradores(11);
 
   fprintf(arqsvg, "<svg width=\"5000\" height=\"5000\" "
                   "xmlns=\"http://www.w3.org/2000/svg\">\n");
@@ -31,8 +34,16 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
       break;
 
     printf("Lendo comando QRY: %s\n", comando);
-    if (strcmp(comando, "@o?") == 0) {
+    if (strcmp(comando, "@o?") == 0) { // Armazena um registrador
+
       fscanf(arqqry, "%s %s %c %d", reg, cep, &face, &num);
+      double px, py;
+      Quadra q = (Quadra)buscarHashItem(Hgeo, cep);
+      calculaPontoEndereco(q, face, num, &px, &py);
+      int vMaisProximo = verticeMaisProximo(grafo, px, py);
+      printf("Vertice mais próximo: %d => %s\n", vMaisProximo, getIdVertice(grafo, vMaisProximo));
+      adicionaRegistrador(regs, reg, cep, face, num, px, py, vMaisProximo);
+
     } else if (strcmp(comando, "mvm") == 0) {
       fscanf(arqqry, "%lf %lf %lf %lf %lf", &v, &x, &y, &w, &h);
     } else if (strcmp(comando, "regs") == 0) {
@@ -44,4 +55,6 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
     }
   } while (1);
   fprintf(arqsvg, "</svg>\n");
+
+  printRegistradores(regs);
 }

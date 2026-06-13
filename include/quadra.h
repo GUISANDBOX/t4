@@ -28,4 +28,21 @@ size_t tamanhoQuadra(void);
 void printQuadra(Quadra q);
 //imprime a quadra no formato
 
+int calculaPontoEndereco(
+    Quadra q,
+    char face,
+    double numero,
+    double *px,
+    double *py
+);
+
+typedef void *ResultadoDijkstra;
+
+ResultadoDijkstra dijkstra(
+    Grafo grafo,
+    int origem,
+    int destino,
+    CriterioDijkstra criterio
+)
+
 #endif

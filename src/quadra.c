@@ -81,3 +81,44 @@ void printQuadra(Quadra q) {
            quadra->cep, quadra->x, quadra->y, quadra->w, quadra->h,
            quadra->sw, quadra->cfill, quadra->cstrk);
 }
+
+int calculaPontoEndereco(
+    Quadra quadra,
+    char face,
+    double numero,
+    double *px,
+    double *py
+) {
+    if (quadra == NULL || px == NULL || py == NULL) {
+        return 0;
+    }
+
+    struct sQuadra *q = (struct sQuadra *) quadra;
+
+    switch (face) {
+        case 'S':
+            *px = q->x + q->w - numero;
+            *py = q->y + q->h;
+            break;
+
+        case 'L':
+            *px = q->x + q->w;
+            *py = q->y + q->h - numero;
+            break;
+
+        case 'N':
+            *px = q->x + q->w - numero;
+            *py = q->y;
+            break;
+
+        case 'O':
+            *px = q->x;
+            *py = q->y + q->h - numero;
+            break;
+
+        default:
+            return 0;
+    }
+
+    return 1;
+}

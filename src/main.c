@@ -201,7 +201,7 @@ int main(int argc, char *argv[]) {
   FILE *filesaidatxt = fopen(dirsaidabaseaux, "w+");
 
   printf("Lendo QRY %s \n", bed);
-  processaQry(fileq, hashQuadra, filesaidatxt, filesaidaquery);
+  processaQry(fileq, hashQuadra, grafo, filesaidatxt, filesaidaquery);
 
   fclose(fileq);
   fclose(filesaidaquery);

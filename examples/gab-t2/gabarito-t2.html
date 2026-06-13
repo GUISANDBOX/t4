@@ -1,0 +1,1077 @@
+<!DOCTYPE html"><HTML>
+<HEAD>
+
+<style> 
+        /* Estilos basicos para as imagens */
+        img {
+            display: block;  
+            margin-left: 5px;  
+            margin-right: auto;  
+            max-width: 100%;
+            border: 2px solid #ccc;
+            width: 100%; 
+            height: auto; 
+        }
+
+        /* Classe para esconder a imagem */
+        .hidden {
+            opacity: 0; /* Torna a imagem transparente */
+            visibility: hidden; /* Garante que a imagem nao ocupe espaco e nao seja interativa */
+            pointer-events: none; /* Desativa eventos de mouse quando invisivel */
+        }
+
+        h2 {
+            cursor: pointer; 
+            color: #0056b3;
+            transition: color 0.3s ease;
+        }
+
+        h2:hover {
+            color: #007bff;
+        }
+
+        /* Classe para esconder elementos */
+        .esconder {
+            display: none; /* Remove o elemento do fluxo do documento */
+        }
+
+      @media print {img {page-break-after: always;}} 
+    </style>
+</HEAD>
+<BODY>
+<h1>ATENCAO:</h1> esta pagina nao prove as respostas dos testes, mas ilustra as consultas a fim de facilitar o entedimento da saida esperada.Esta pagina nao prove as respostas dos testes, mas ilustra as consultas a fim de facilitar o entedimento da saida esperada.<H1 id="h-1">[1] c1</H1>
+<IMG id="i-1" SRC=".\c1.svg" NAME="c1" />
+<H2 id="h-2">{2}(1) .\c1\00-perc-smpl.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Este e' um percurso simples. Esperado: faz o percurso do inicio ao fim.
+ <BR/>
+</P>
+<P id="p-2" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 b05.9 S 76
+ <BR/>
+@o? R2 b05.2 S 28
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-2" SRC=".\c1-00-perc-smpl.svg" NAME="c1-00-perc-smpl" />
+<H2 id="h-3">{3}(2) .\c1\01-perc-smpl-volta.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Dois percursos simples. Esperado: faz o percurso do inicio ao fim, depois volta do fim para o inicio
+ <BR/>
+</P>
+<P id="p-3" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 b05.9 O 44
+ <BR/>
+@o? R2 b04.1 L 51
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+p? R2 R1 #7f2aff #ff2a7f
+ <BR/>
+</P>
+<IMG id="i-3" SRC=".\c1-01-perc-smpl-volta.svg" NAME="c1-01-perc-smpl-volta" />
+<H2 id="h-4">{4}(3) .\c1\01-regs-quadr.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas.
+ <BR/>
+</P>
+<P id="p-4" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 366.67 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 763.33 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 500.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 1030.00 -30.00 132.50 1190.00
+ <BR/>
+regs 1.10
+ <BR/>
+</P>
+<IMG id="i-4" SRC=".\c1-01-regs-quadr.svg" NAME="c1-01-regs-quadr" />
+<H2 id="h-5">{5}(4) .\c1\02-exp-apos-reg.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Ramos da AGM aparecem nas fronteiras das regioes
+ <BR/>
+</P>
+<P id="p-5" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 366.67 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 763.33 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 500.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 1030.00 -30.00 132.50 1190.00
+ <BR/>
+regs 1.10
+ <BR/>
+exp 1.10
+ <BR/>
+</P>
+<IMG id="i-5" SRC=".\c1-02-exp-apos-reg.svg" NAME="c1-02-exp-apos-reg" />
+<H2 id="h-6">{6}(5) .\c1\02-perc-estr3.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Varios percursos com a mesma origem. Esperado: percorre cada um dos percursos do comeco ao fim.
+ <BR/>
+</P>
+<P id="p-6" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 b03.2 L 13
+ <BR/>
+@o? R2 b06.3 N 1
+ <BR/>
+p? R1 R2 #008000 #FFFF00
+ <BR/>
+@o? R2 b03.10 S 9
+ <BR/>
+p? R2 R1 #008000 #FFFF00
+ <BR/>
+@o? R2 b08.8 N 31
+ <BR/>
+p? R1 R2 #008000 #FFFF00
+ <BR/>
+</P>
+<IMG id="i-6" SRC=".\c1-02-perc-estr3.svg" NAME="c1-02-perc-estr3" />
+<H2 id="h-7">{7}(6) .\c1\03-perc-apos-reg.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Percurso simples pouco afetado pela redução (apenas tempo maior).
+ <BR/>
+</P>
+<P id="p-7" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 366.67 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 763.33 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 500.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 1030.00 -30.00 132.50 1190.00
+ <BR/>
+regs 1.10
+ <BR/>
+@o? R1 b010.8 O 28
+ <BR/>
+@o? R2 b03.1 L 6
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-7" SRC=".\c1-03-perc-apos-reg.svg" NAME="c1-03-perc-apos-reg" />
+<H2 id="h-8">{8}(7) .\c1\03-perc-smpl-intercalado.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz velocidade em padrao intercalado. Provoca percurso simples em zig-zag.
+ <BR/>
+</P>
+<P id="p-8" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 88.33 595.00
+ <BR/>
+mvm 0.60 -30.00 366.67 88.33 396.67
+ <BR/>
+mvm 0.60 235.00 565.00 88.33 595.00
+ <BR/>
+mvm 0.60 411.67 366.67 88.33 396.67
+ <BR/>
+mvm 0.60 500.00 -30.00 88.33 595.00
+ <BR/>
+mvm 0.60 853.33 366.67 88.33 396.67
+ <BR/>
+mvm 0.60 765.00 565.00 88.33 595.00
+ <BR/>
+mvm 0.60 1295.00 366.67 88.33 396.67
+ <BR/>
+mvm 0.60 1030.00 -30.00 88.33 595.00
+ <BR/>
+mvm 0.60 1825.00 366.67 88.33 396.67
+ <BR/>
+mvm 0.60 1295.00 565.00 88.33 595.00
+ <BR/>
+mvm 0.60 2266.67 366.67 88.33 396.67
+ <BR/>
+@o? R1 b05.9 S 76
+ <BR/>
+@o? R2 b05.2 S 28
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-8" SRC=".\c1-03-perc-smpl-intercalado.svg" NAME="c1-03-perc-smpl-intercalado" />
+<H2 id="h-9">{9}(8) .\c1\04-perc-apos-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado:  Ramos da AGM aparecem nas fronteiras do grid. Percurso mais rápido tende a passar nos ramos.
+ <BR/>
+</P>
+<P id="p-9" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 366.67 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 763.33 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 500.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 1030.00 -30.00 132.50 1190.00
+ <BR/>
+exp 1.10
+ <BR/>
+@o? R1 b010.8 O 28
+ <BR/>
+@o? R2 b03.1 L 6
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-9" SRC=".\c1-04-perc-apos-exp.svg" NAME="c1-04-perc-apos-exp" />
+<H2 id="h-10">{10}(9) .\c1\05-perc-apos-reg-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Ramos da AGM aparecem nas fronteiras das regioes. Percurso mais rápido tende a passar nos ramos.
+ <BR/>
+</P>
+<P id="p-10" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 366.67 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 763.33 1590.00 99.17
+ <BR/>
+mvm 0.60 -30.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 500.00 -30.00 132.50 1190.00
+ <BR/>
+mvm 0.60 1030.00 -30.00 132.50 1190.00
+ <BR/>
+regs 1.10
+ <BR/>
+exp 1.10
+ <BR/>
+@o? R1 b010.8 O 28
+ <BR/>
+@o? R2 b03.1 L 6
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-10" SRC=".\c1-05-perc-apos-reg-exp.svg" NAME="c1-05-perc-apos-reg-exp" />
+<H2 id="h-11">{11}(10) .\c1\06-perc-zigzag.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Esperado: percurso em zig-zag.
+ <BR/>
+</P>
+<P id="p-11" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 -30.00 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 288.00 565.00 79.50 595.00
+ <BR/>
+mvm 2.80 526.50 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 606.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 1083.00 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 924.00 565.00 79.50 595.00
+ <BR/>
+mvm 2.80 1639.50 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 1242.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 2196.00 366.67 79.50 396.67
+ <BR/>
+@o? R1 b03.1 L 52
+ <BR/>
+@o? R2 b010.10 S 100
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-11" SRC=".\c1-06-perc-zigzag.svg" NAME="c1-06-perc-zigzag" />
+<H2 id="h-12">{12}(11) .\c1\07-perc-apos-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Ramos da AGM aparecem nas regioes onde velocidade foi reduzida
+ <BR/>
+</P>
+<P id="p-12" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 -30.00 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 288.00 565.00 79.50 595.00
+ <BR/>
+mvm 2.80 526.50 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 606.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 1083.00 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 924.00 565.00 79.50 595.00
+ <BR/>
+mvm 2.80 1639.50 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 1242.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 2196.00 366.67 79.50 396.67
+ <BR/>
+exp 3.30
+ <BR/>
+@o? R1 b03.1 L 52
+ <BR/>
+@o? R2 b010.10 S 100
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-12" SRC=".\c1-07-perc-apos-exp.svg" NAME="c1-07-perc-apos-exp" />
+<H2 id="h-13">{13}(12) .\c1\08-perc-apos-reg-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Ramos da AGM aparecem nas regioes onde velocidade foi reduzida. Apenas 1 regiao
+ <BR/>
+</P>
+<P id="p-13" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 -30.00 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 288.00 565.00 79.50 595.00
+ <BR/>
+mvm 2.80 526.50 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 606.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 1083.00 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 924.00 565.00 79.50 595.00
+ <BR/>
+mvm 2.80 1639.50 366.67 79.50 396.67
+ <BR/>
+mvm 2.80 1242.00 -30.00 79.50 595.00
+ <BR/>
+mvm 2.80 2196.00 366.67 79.50 396.67
+ <BR/>
+regs 3.30
+ <BR/>
+exp 3.30
+ <BR/>
+@o? R1 b03.1 L 52
+ <BR/>
+@o? R2 b010.10 S 100
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-13" SRC=".\c1-08-perc-apos-reg-exp.svg" NAME="c1-08-perc-apos-reg-exp" />
+<H1 id="h-14">[2] c2</H1>
+<IMG id="i-14" SRC=".\c2.svg" NAME="c2" />
+<H2 id="h-15">{15}(1) .\c2\00-perc-smpl.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Este e' um percurso simples. Esperado: faz o percurso do inicio ao fim.
+ <BR/>
+</P>
+<P id="p-15" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 B40-6.2 O 53
+ <BR/>
+@o? R2 B43-4.7 S 35
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-15" SRC=".\c2-00-perc-smpl.svg" NAME="c2-00-perc-smpl" />
+<H2 id="h-16">{16}(2) .\c2\01-perc-smpl-volta.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Dois percursos simples. Esperado: faz o percurso do inicio ao fim, depois volta do fim para o inicio
+ <BR/>
+</P>
+<P id="p-16" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 B43-10.10 L 71
+ <BR/>
+@o? R2 B40-1.5 L 18
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+p? R2 R1 #7f2aff #ff2a7f
+ <BR/>
+</P>
+<IMG id="i-16" SRC=".\c2-01-perc-smpl-volta.svg" NAME="c2-01-perc-smpl-volta" />
+<H2 id="h-17">{17}(3) .\c2\01-regs-quadr.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas.
+ <BR/>
+</P>
+<P id="p-17" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 1158.33 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 2346.67 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 3255.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 6540.00 -30.00 821.25 3565.00
+ <BR/>
+regs 1.10
+ <BR/>
+</P>
+<IMG id="i-17" SRC=".\c2-01-regs-quadr.svg" NAME="c2-01-regs-quadr" />
+<H2 id="h-18">{18}(4) .\c2\02-exp-apos-reg.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Ramos da AGM aparecem nas fronteiras das regioes
+ <BR/>
+</P>
+<P id="p-18" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 1158.33 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 2346.67 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 3255.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 6540.00 -30.00 821.25 3565.00
+ <BR/>
+regs 1.10
+ <BR/>
+exp 1.10
+ <BR/>
+</P>
+<IMG id="i-18" SRC=".\c2-02-exp-apos-reg.svg" NAME="c2-02-exp-apos-reg" />
+<H2 id="h-19">{19}(5) .\c2\02-perc-estr3.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Varios percursos com a mesma origem. Esperado: percorre cada um dos percursos do comeco ao fim.
+ <BR/>
+</P>
+<P id="p-19" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 B44-7.10 O 53
+ <BR/>
+@o? R2 B31-17.3 O 13
+ <BR/>
+p? R1 R2 #008000 #FFFF00
+ <BR/>
+@o? R2 B41-7.3 L 60
+ <BR/>
+p? R2 R1 #008000 #FFFF00
+ <BR/>
+@o? R2 B44-1.11 N 46
+ <BR/>
+p? R1 R2 #008000 #FFFF00
+ <BR/>
+</P>
+<IMG id="i-19" SRC=".\c2-02-perc-estr3.svg" NAME="c2-02-perc-estr3" />
+<H2 id="h-20">{20}(6) .\c2\03-perc-apos-reg.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Percurso simples pouco afetado pela redução (apenas tempo maior).
+ <BR/>
+</P>
+<P id="p-20" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 1158.33 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 2346.67 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 3255.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 6540.00 -30.00 821.25 3565.00
+ <BR/>
+regs 1.10
+ <BR/>
+@o? R1 B43-3.8 L 54
+ <BR/>
+@o? R2 B30-4.3 L 66
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-20" SRC=".\c2-03-perc-apos-reg.svg" NAME="c2-03-perc-apos-reg" />
+<H2 id="h-21">{21}(7) .\c2\03-perc-smpl-intercalado.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz velocidade em padrao intercalado. Provoca percurso simples em zig-zag.
+ <BR/>
+</P>
+<P id="p-21" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 547.50 1782.50
+ <BR/>
+mvm 0.60 -30.00 1158.33 547.50 1188.33
+ <BR/>
+mvm 0.60 1612.50 1752.50 547.50 1782.50
+ <BR/>
+mvm 0.60 2707.50 1158.33 547.50 1188.33
+ <BR/>
+mvm 0.60 3255.00 -30.00 547.50 1782.50
+ <BR/>
+mvm 0.60 5445.00 1158.33 547.50 1188.33
+ <BR/>
+mvm 0.60 4897.50 1752.50 547.50 1782.50
+ <BR/>
+mvm 0.60 8182.50 1158.33 547.50 1188.33
+ <BR/>
+mvm 0.60 6540.00 -30.00 547.50 1782.50
+ <BR/>
+mvm 0.60 11467.50 1158.33 547.50 1188.33
+ <BR/>
+mvm 0.60 8182.50 1752.50 547.50 1782.50
+ <BR/>
+mvm 0.60 14205.00 1158.33 547.50 1188.33
+ <BR/>
+@o? R1 B40-6.2 O 53
+ <BR/>
+@o? R2 B43-4.7 S 35
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-21" SRC=".\c2-03-perc-smpl-intercalado.svg" NAME="c2-03-perc-smpl-intercalado" />
+<H2 id="h-22">{22}(8) .\c2\04-perc-apos-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado:  Ramos da AGM aparecem nas fronteiras do grid. Percurso mais rápido tende a passar nos ramos.
+ <BR/>
+</P>
+<P id="p-22" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 1158.33 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 2346.67 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 3255.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 6540.00 -30.00 821.25 3565.00
+ <BR/>
+exp 1.10
+ <BR/>
+@o? R1 B43-3.8 L 54
+ <BR/>
+@o? R2 B30-4.3 L 66
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-22" SRC=".\c2-04-perc-apos-exp.svg" NAME="c2-04-perc-apos-exp" />
+<H2 id="h-23">{23}(9) .\c2\05-perc-apos-reg-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Ramos da AGM aparecem nas fronteiras das regioes. Percurso mais rápido tende a passar nos ramos.
+ <BR/>
+</P>
+<P id="p-23" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 1158.33 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 2346.67 9855.00 297.08
+ <BR/>
+mvm 0.60 -30.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 3255.00 -30.00 821.25 3565.00
+ <BR/>
+mvm 0.60 6540.00 -30.00 821.25 3565.00
+ <BR/>
+regs 1.10
+ <BR/>
+exp 1.10
+ <BR/>
+@o? R1 B43-3.8 L 54
+ <BR/>
+@o? R2 B30-4.3 L 66
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-23" SRC=".\c2-05-perc-apos-reg-exp.svg" NAME="c2-05-perc-apos-reg-exp" />
+<H2 id="h-24">{24}(10) .\c2\06-perc-zigzag.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Esperado: percurso em zig-zag.
+ <BR/>
+</P>
+<P id="p-24" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 -30.00 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 1941.00 1752.50 492.75 1782.50
+ <BR/>
+mvm 2.80 3419.25 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 3912.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 6868.50 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 5883.00 1752.50 492.75 1782.50
+ <BR/>
+mvm 2.80 10317.75 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 7854.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 13767.00 1158.33 492.75 1188.33
+ <BR/>
+@o? R1 B44-3.9 S 36
+ <BR/>
+@o? R2 B30-16.9 L 17
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-24" SRC=".\c2-06-perc-zigzag.svg" NAME="c2-06-perc-zigzag" />
+<H2 id="h-25">{25}(11) .\c2\07-perc-apos-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Ramos da AGM aparecem nas regioes onde velocidade foi reduzida
+ <BR/>
+</P>
+<P id="p-25" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 -30.00 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 1941.00 1752.50 492.75 1782.50
+ <BR/>
+mvm 2.80 3419.25 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 3912.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 6868.50 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 5883.00 1752.50 492.75 1782.50
+ <BR/>
+mvm 2.80 10317.75 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 7854.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 13767.00 1158.33 492.75 1188.33
+ <BR/>
+exp 3.30
+ <BR/>
+@o? R1 B44-3.9 S 36
+ <BR/>
+@o? R2 B30-16.9 L 17
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-25" SRC=".\c2-07-perc-apos-exp.svg" NAME="c2-07-perc-apos-exp" />
+<H2 id="h-26">{26}(12) .\c2\08-perc-apos-reg-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Ramos da AGM aparecem nas regioes onde velocidade foi reduzida. Apenas 1 regiao
+ <BR/>
+</P>
+<P id="p-26" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 -30.00 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 1941.00 1752.50 492.75 1782.50
+ <BR/>
+mvm 2.80 3419.25 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 3912.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 6868.50 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 5883.00 1752.50 492.75 1782.50
+ <BR/>
+mvm 2.80 10317.75 1158.33 492.75 1188.33
+ <BR/>
+mvm 2.80 7854.00 -30.00 492.75 1782.50
+ <BR/>
+mvm 2.80 13767.00 1158.33 492.75 1188.33
+ <BR/>
+regs 3.30
+ <BR/>
+exp 3.30
+ <BR/>
+@o? R1 B44-3.9 S 36
+ <BR/>
+@o? R2 B30-16.9 L 17
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-26" SRC=".\c2-08-perc-apos-reg-exp.svg" NAME="c2-08-perc-apos-reg-exp" />
+<H1 id="h-27">[3] c3</H1>
+<IMG id="i-27" SRC=".\c3.svg" NAME="c3" />
+<H2 id="h-28">{28}(1) .\c3\00-perc-smpl.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Este e' um percurso simples. Esperado: faz o percurso do inicio ao fim.
+ <BR/>
+</P>
+<P id="p-28" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 B30-2.10 O 63
+ <BR/>
+@o? R2 B43-13.9 N 55
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-28" SRC=".\c3-00-perc-smpl.svg" NAME="c3-00-perc-smpl" />
+<H2 id="h-29">{29}(2) .\c3\01-perc-smpl-volta.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Dois percursos simples. Esperado: faz o percurso do inicio ao fim, depois volta do fim para o inicio
+ <BR/>
+</P>
+<P id="p-29" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 B40-2.3 N 36
+ <BR/>
+@o? R2 B44-4.5 O 78
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+p? R2 R1 #7f2aff #ff2a7f
+ <BR/>
+</P>
+<IMG id="i-29" SRC=".\c3-01-perc-smpl-volta.svg" NAME="c3-01-perc-smpl-volta" />
+<H2 id="h-30">{30}(3) .\c3\01-regs-quadr.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas.
+ <BR/>
+</P>
+<P id="p-30" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 1616.67 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 3263.33 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 4655.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 9340.00 -30.00 1171.25 4940.00
+ <BR/>
+regs 1.10
+ <BR/>
+</P>
+<IMG id="i-30" SRC=".\c3-01-regs-quadr.svg" NAME="c3-01-regs-quadr" />
+<H2 id="h-31">{31}(4) .\c3\02-exp-apos-reg.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Ramos da AGM aparecem nas fronteiras das regioes
+ <BR/>
+</P>
+<P id="p-31" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 1616.67 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 3263.33 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 4655.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 9340.00 -30.00 1171.25 4940.00
+ <BR/>
+regs 1.10
+ <BR/>
+exp 1.10
+ <BR/>
+</P>
+<IMG id="i-31" SRC=".\c3-02-exp-apos-reg.svg" NAME="c3-02-exp-apos-reg" />
+<H2 id="h-32">{32}(5) .\c3\02-perc-estr3.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Varios percursos com a mesma origem. Esperado: percorre cada um dos percursos do comeco ao fim.
+ <BR/>
+</P>
+<P id="p-32" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+@o? R1 B41-7.3 O 44
+ <BR/>
+@o? R2 B43-11.15 S 104
+ <BR/>
+p? R1 R2 #008000 #FFFF00
+ <BR/>
+@o? R2 B44-8.13 N 36
+ <BR/>
+p? R2 R1 #008000 #FFFF00
+ <BR/>
+@o? R2 B32-17.17 O 32
+ <BR/>
+p? R1 R2 #008000 #FFFF00
+ <BR/>
+</P>
+<IMG id="i-32" SRC=".\c3-02-perc-estr3.svg" NAME="c3-02-perc-estr3" />
+<H2 id="h-33">{33}(6) .\c3\03-perc-apos-reg.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Percurso simples pouco afetado pela redução (apenas tempo maior).
+ <BR/>
+</P>
+<P id="p-33" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 1616.67 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 3263.33 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 4655.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 9340.00 -30.00 1171.25 4940.00
+ <BR/>
+regs 1.10
+ <BR/>
+@o? R1 B44-12.10 O 75
+ <BR/>
+@o? R2 B30-17.19 N 11
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-33" SRC=".\c3-03-perc-apos-reg.svg" NAME="c3-03-perc-apos-reg" />
+<H2 id="h-34">{34}(7) .\c3\03-perc-smpl-intercalado.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz velocidade em padrao intercalado. Provoca percurso simples em zig-zag.
+ <BR/>
+</P>
+<P id="p-34" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 780.83 2470.00
+ <BR/>
+mvm 0.60 -30.00 1616.67 780.83 1646.67
+ <BR/>
+mvm 0.60 2312.50 2440.00 780.83 2470.00
+ <BR/>
+mvm 0.60 3874.17 1616.67 780.83 1646.67
+ <BR/>
+mvm 0.60 4655.00 -30.00 780.83 2470.00
+ <BR/>
+mvm 0.60 7778.33 1616.67 780.83 1646.67
+ <BR/>
+mvm 0.60 6997.50 2440.00 780.83 2470.00
+ <BR/>
+mvm 0.60 11682.50 1616.67 780.83 1646.67
+ <BR/>
+mvm 0.60 9340.00 -30.00 780.83 2470.00
+ <BR/>
+mvm 0.60 16367.50 1616.67 780.83 1646.67
+ <BR/>
+mvm 0.60 11682.50 2440.00 780.83 2470.00
+ <BR/>
+mvm 0.60 20271.67 1616.67 780.83 1646.67
+ <BR/>
+@o? R1 B30-2.10 O 63
+ <BR/>
+@o? R2 B43-13.9 N 55
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-34" SRC=".\c3-03-perc-smpl-intercalado.svg" NAME="c3-03-perc-smpl-intercalado" />
+<H2 id="h-35">{35}(8) .\c3\04-perc-apos-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado:  Ramos da AGM aparecem nas fronteiras do grid. Percurso mais rápido tende a passar nos ramos.
+ <BR/>
+</P>
+<P id="p-35" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 1616.67 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 3263.33 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 4655.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 9340.00 -30.00 1171.25 4940.00
+ <BR/>
+exp 1.10
+ <BR/>
+@o? R1 B44-12.10 O 75
+ <BR/>
+@o? R2 B30-17.19 N 11
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-35" SRC=".\c3-04-perc-apos-exp.svg" NAME="c3-04-perc-apos-exp" />
+<H2 id="h-36">{36}(9) .\c3\05-perc-apos-reg-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em um grid. Esperado: Varias regioes quadrangulares vizinhas desconectadas. Ramos da AGM aparecem nas fronteiras das regioes. Percurso mais rápido tende a passar nos ramos.
+ <BR/>
+</P>
+<P id="p-36" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 0.60 -30.00 -30.00 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 1616.67 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 3263.33 14055.00 411.67
+ <BR/>
+mvm 0.60 -30.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 4655.00 -30.00 1171.25 4940.00
+ <BR/>
+mvm 0.60 9340.00 -30.00 1171.25 4940.00
+ <BR/>
+regs 1.10
+ <BR/>
+exp 1.10
+ <BR/>
+@o? R1 B44-12.10 O 75
+ <BR/>
+@o? R2 B30-17.19 N 11
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-36" SRC=".\c3-05-perc-apos-reg-exp.svg" NAME="c3-05-perc-apos-reg-exp" />
+<H2 id="h-37">{37}(10) .\c3\06-perc-zigzag.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Esperado: percurso em zig-zag.
+ <BR/>
+</P>
+<P id="p-37" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 -30.00 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 2781.00 2440.00 702.75 2470.00
+ <BR/>
+mvm 2.80 4889.25 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 5592.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 9808.50 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 8403.00 2440.00 702.75 2470.00
+ <BR/>
+mvm 2.80 14727.75 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 11214.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 19647.00 1616.67 702.75 1646.67
+ <BR/>
+@o? R1 B30-10.4 S 43
+ <BR/>
+@o? R2 B44-6.6 L 65
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-37" SRC=".\c3-06-perc-zigzag.svg" NAME="c3-06-perc-zigzag" />
+<H2 id="h-38">{38}(11) .\c3\07-perc-apos-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Ramos da AGM aparecem nas regioes onde velocidade foi reduzida
+ <BR/>
+</P>
+<P id="p-38" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 -30.00 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 2781.00 2440.00 702.75 2470.00
+ <BR/>
+mvm 2.80 4889.25 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 5592.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 9808.50 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 8403.00 2440.00 702.75 2470.00
+ <BR/>
+mvm 2.80 14727.75 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 11214.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 19647.00 1616.67 702.75 1646.67
+ <BR/>
+exp 3.30
+ <BR/>
+@o? R1 B30-10.4 S 43
+ <BR/>
+@o? R2 B44-6.6 L 65
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-38" SRC=".\c3-07-perc-apos-exp.svg" NAME="c3-07-perc-apos-exp" />
+<H2 id="h-39">{39}(12) .\c3\08-perc-apos-reg-exp.qry</H2>
+<P id="nada" style="color: blue; font-family: serif; font-style: italic; font-size: 100%; line-height: 0.8; margin: 4;">
+Reduz a velocidade em zig-zag. Ramos da AGM aparecem nas regioes onde velocidade foi reduzida. Apenas 1 regiao
+ <BR/>
+</P>
+<P id="p-39" style="color: red; font-family: courier; font-size: 125%; line-height: 0.8;">
+mvm 2.80 -30.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 -30.00 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 2781.00 2440.00 702.75 2470.00
+ <BR/>
+mvm 2.80 4889.25 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 5592.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 9808.50 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 8403.00 2440.00 702.75 2470.00
+ <BR/>
+mvm 2.80 14727.75 1616.67 702.75 1646.67
+ <BR/>
+mvm 2.80 11214.00 -30.00 702.75 2470.00
+ <BR/>
+mvm 2.80 19647.00 1616.67 702.75 1646.67
+ <BR/>
+regs 3.30
+ <BR/>
+exp 3.30
+ <BR/>
+@o? R1 B30-10.4 S 43
+ <BR/>
+@o? R2 B44-6.6 L 65
+ <BR/>
+p? R1 R2 #ff6600 #66ff00
+ <BR/>
+</P>
+<IMG id="i-39" SRC=".\c3-08-perc-apos-reg-exp.svg" NAME="c3-08-perc-apos-reg-exp" />
+
+<script>
+// Esta funcao sera' chamada ao clicar em um titulo
+function toggleVisibilidade(tituloId) {
+    // Extrai o numero do ID (ex: "30" de "titulo-imagem-30")
+    const numeroId = tituloId.replace('h-', '');
+
+    // Constroi os IDs do paragrafo e da imagem correspondentes
+    const paragrafoId = 'p-' + numeroId;
+    const imagemId = 'i-' + numeroId;
+
+    // Seleciona os elementos
+    const paragrafo = document.getElementById(paragrafoId);
+    const imagem = document.getElementById(imagemId);
+
+    // Alterna a classe 'esconder' nos elementos, se existirem
+    if (paragrafo) {
+        paragrafo.classList.toggle('esconder');
+    }
+    if (imagem) {
+        imagem.classList.toggle('esconder');
+    }
+}
+
+// Adiciona um ouvinte de evento de clique a todos os titulos
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona todos os H2 que comecam com "titulo-imagem-"
+    const titulos = document.querySelectorAll('h2[id^="h-"]');
+
+    titulos.forEach(function(titulo) {
+        titulo.addEventListener('click', function() {
+            // Chama a funcao passando o ID do titulo clicado
+            toggleVisibilidade(this.id);
+        });
+    });
+});
+</script> 
+
+  </BODY>
+</HTML>
