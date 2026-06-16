@@ -2,3 +2,7 @@ assets/*
 src/*.o
 output/*
 ted
+t_grafo
+t_registrador
+t_hashfile
+t_integracao

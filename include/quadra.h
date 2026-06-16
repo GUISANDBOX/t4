@@ -36,13 +36,4 @@ int calculaPontoEndereco(
     double *py
 );
 
-typedef void *ResultadoDijkstra;
-
-ResultadoDijkstra dijkstra(
-    Grafo grafo,
-    int origem,
-    int destino,
-    CriterioDijkstra criterio
-)
-
 #endif

@@ -342,3 +342,12 @@ double getYVertice(Grafo g, int indice) {
 
     return grafo->vertices[indice].y;
 }
+
+int getQuantidadeArestas(Grafo g) {
+    if (g == NULL) {
+        return 0;
+    }
+
+    struct sGrafo *grafo = (struct sGrafo *) g;
+    return grafo->qtdArestas;
+}

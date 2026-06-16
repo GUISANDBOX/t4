@@ -1,12 +1,7 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#include <stdio.h>
-
 typedef void *Grafo;
-
-
-
 
 Grafo criaGrafo(int capacidadeVertices);
 
@@ -30,10 +25,10 @@ int verticeMaisProximo(
 
 int getQuantidadeVertices(Grafo g);
 
+int getQuantidadeArestas(Grafo g);
+
 char *getIdVertice(Grafo g, int indice);
 double getXVertice(Grafo g, int indice);
 double getYVertice(Grafo g, int indice);
-
-
 
 #endif

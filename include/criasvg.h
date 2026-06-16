@@ -2,7 +2,6 @@
 #define CRIASVG
 #include "hashfile.h"
 #include "quadra.h"
-#include <stdio.h>
 
 /// @brief Desenha uma quadra no arquivo SVG
 /// @param q quadra a ser desenhada
