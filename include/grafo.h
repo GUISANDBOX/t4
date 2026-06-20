@@ -2,6 +2,12 @@
 #define GRAFO_H
 
 typedef void *Grafo;
+typedef void *ResultadoDijkstra;
+
+typedef enum {
+    MENOR_DISTANCIA,
+    MENOR_TEMPO
+} CriterioDijkstra;
 
 Grafo criaGrafo(int capacidadeVertices);
 
@@ -30,5 +36,33 @@ int getQuantidadeArestas(Grafo g);
 char *getIdVertice(Grafo g, int indice);
 double getXVertice(Grafo g, int indice);
 double getYVertice(Grafo g, int indice);
+
+
+ResultadoDijkstra dijkstra(
+    Grafo g,
+    int origem,
+    int destino,
+    CriterioDijkstra criterio
+);
+
+void imprimeCaminho(
+    Grafo g,
+    ResultadoDijkstra resultado
+);
+
+double getCustoResultado(
+    ResultadoDijkstra resultado
+);
+
+int existeCaminho(
+    ResultadoDijkstra resultado
+);
+
+void liberaResultadoDijkstra(
+    ResultadoDijkstra resultado
+);
+
+int getQuantidadeVertices(Grafo g);
+
 
 #endif

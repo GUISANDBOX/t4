@@ -784,3 +784,20 @@ int getListaItens(HashFile hash, HashItem *itens) {
   }
   return count;
 }
+
+void destruirHashFile(HashFile hash) {
+  if (!hash)
+    return;
+  sHashFile *hashFile = (sHashFile *)hash;
+  if (hashFile->file) {
+    fclose(hashFile->file);
+  }
+  if (hashFile->hdrFile) {
+    fclose(hashFile->hdrFile);
+  }
+  if (hashFile->directory) {
+    free(hashFile->directory);
+  }
+  free(hashFile);
+  
+}

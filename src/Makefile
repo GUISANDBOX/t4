@@ -25,7 +25,7 @@ $(PROJ_NAME): $(OBJETOS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJETOS) $(PROJ_NAME) $(TEST_TESTS) *.hf *.hfc  output/*
+	rm -f $(OBJETOS) $(PROJ_NAME) $(TEST_TESTS) *.hf *.hfc ../output/*
 
 run: $(PROJ_NAME)
 	./$(PROJ_NAME)

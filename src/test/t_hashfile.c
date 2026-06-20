@@ -8,7 +8,6 @@ HashFile hash;
 void setUp(void) {}
 
 void tearDown(void) {
-  // destruirHashFile(hash);
 }
 
 void test_tamanho_struct(void) {
@@ -59,6 +58,9 @@ void test_inserir_item_hash(void) {
   }
   TEST_ASSERT_NOT_NULL(hash);
   TEST_ASSERT_NOT_NULL(busca);
+  destruirHashFile(hash);
+  remove("../output/hashfile.hf");
+  remove("../output/hashfile.hfc");
 }
 
 // simple test runner

@@ -98,23 +98,23 @@ int calculaPontoEndereco(
 
     switch (face) {
         case 'S':
-            *px = q->x + q->w - numero;
-            *py = q->y + q->h;
-            break;
-
-        case 'L':
-            *px = q->x + q->w;
-            *py = q->y + q->h - numero;
-            break;
-
-        case 'N':
-            *px = q->x + q->w - numero;
+            *px = q->x + numero;
             *py = q->y;
             break;
 
-        case 'O':
+        case 'L':
             *px = q->x;
-            *py = q->y + q->h - numero;
+            *py = q->y + numero;
+            break;
+
+        case 'N':
+            *px = q->x + numero;
+            *py = q->y + q->h;
+            break;
+
+        case 'O':
+            *px = q->x + q->w;
+            *py = q->y + numero;
             break;
 
         default:

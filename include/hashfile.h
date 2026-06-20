@@ -71,4 +71,8 @@ void removerHashItem(HashFile hash, char *key);
 /// @return número de itens
 int getListaItens(HashFile hash, HashItem *itens);
 
+/// @brief Destrói o hashfile e libera a memória
+/// @param hash hashfile a ser destruído
+void destruirHashFile(HashFile hash);
+
 #endif

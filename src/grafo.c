@@ -6,7 +6,7 @@
 #define TAM_ID 64
 #define TAM_CEP 64
 #define TAM_RUA 128
-
+#define INF 1e100
 
 typedef struct sAresta *Aresta;
 
@@ -350,4 +350,273 @@ int getQuantidadeArestas(Grafo g) {
 
     struct sGrafo *grafo = (struct sGrafo *) g;
     return grafo->qtdArestas;
+}
+
+/* Algoritmo de Dijkstra */
+struct sResultadoDijkstra {
+    double custoTotal;
+
+    int origem;
+    int destino;
+    int qtdVertices;
+
+    int *anterior;
+    Aresta *arestaAnterior;
+
+    CriterioDijkstra criterio;
+};
+
+typedef struct sResultadoDijkstra *ResultadoInterno;
+
+static double pesoAresta(Aresta a, CriterioDijkstra criterio) {
+    if (a == NULL) {
+        return INF;
+    }
+
+    if (criterio == MENOR_DISTANCIA) {
+        return a->comprimento;
+    }
+
+    if (criterio == MENOR_TEMPO) {
+        if (a->velocidade <= 0) {
+            return INF;
+        }
+
+        return a->comprimento / a->velocidade;
+    }
+
+    return a->comprimento;
+}
+
+ResultadoDijkstra dijkstra(
+    Grafo grafo,
+    int origem,
+    int destino,
+    CriterioDijkstra criterio
+) {
+    if (grafo == NULL) {
+        return NULL;
+    }
+
+    GrafoInterno g = (GrafoInterno) grafo;
+
+    int n = g->qtdVertices;
+
+    if (origem < 0 || origem >= n || destino < 0 || destino >= n) {
+        return NULL;
+    }
+
+    ResultadoInterno resultado = malloc(sizeof(struct sResultadoDijkstra));
+
+    if (resultado == NULL) {
+        return NULL;
+    }
+
+    double *dist = malloc(n * sizeof(double));
+    int *visitado = malloc(n * sizeof(int));
+    int *anterior = malloc(n * sizeof(int));
+    Aresta *arestaAnterior = malloc(n * sizeof(Aresta));
+
+    if (
+        dist == NULL ||
+        visitado == NULL ||
+        anterior == NULL ||
+        arestaAnterior == NULL
+    ) {
+        free(dist);
+        free(visitado);
+        free(anterior);
+        free(arestaAnterior);
+        free(resultado);
+        return NULL;
+    }
+
+    for (int i = 0; i < n; i++) {
+        dist[i] = INF;
+        visitado[i] = 0;
+        anterior[i] = -1;
+        arestaAnterior[i] = NULL;
+    }
+
+    dist[origem] = 0;
+
+    for (int cont = 0; cont < n; cont++) {
+        int u = -1;
+        double menor = INF;
+
+        for (int i = 0; i < n; i++) {
+            if (!visitado[i] && dist[i] < menor) {
+                menor = dist[i];
+                u = i;
+            }
+        }
+
+        if (u == -1) {
+            break;
+        }
+
+        if (dist[u] >= INF / 2) {
+            break;
+        }
+
+        visitado[u] = 1;
+
+        if (u == destino) {
+            break;
+        }
+
+        Aresta atual = g->vertices[u].listaAdj;
+
+        while (atual != NULL) {
+            int v = atual->destino;
+
+            double peso = pesoAresta(atual, criterio);
+
+            if (!visitado[v] && peso < INF / 2) {
+                double novaDist = dist[u] + peso;
+
+                if (novaDist < dist[v]) {
+                    dist[v] = novaDist;
+                    anterior[v] = u;
+                    arestaAnterior[v] = atual;
+                }
+            }
+
+            atual = atual->prox;
+        }
+    }
+
+    resultado->custoTotal = dist[destino];
+    resultado->origem = origem;
+    resultado->destino = destino;
+    resultado->qtdVertices = n;
+    resultado->anterior = anterior;
+    resultado->arestaAnterior = arestaAnterior;
+    resultado->criterio = criterio;
+
+    free(dist);
+    free(visitado);
+
+    return resultado;
+}
+
+int existeCaminho(ResultadoDijkstra resultado) {
+    if (resultado == NULL) {
+        return 0;
+    }
+
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    return r->custoTotal < INF / 2;
+}
+
+void imprimeCaminho(
+    Grafo grafo,
+    ResultadoDijkstra resultado
+) {
+    if (grafo == NULL || resultado == NULL) {
+        return;
+    }
+
+    GrafoInterno g = (GrafoInterno) grafo;
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    if (!existeCaminho(resultado)) {
+        printf("Nao existe caminho entre %s e %s\n",
+               g->vertices[r->origem].id,
+               g->vertices[r->destino].id);
+        return;
+    }
+
+    int *pilha = malloc(r->qtdVertices * sizeof(int));
+
+    if (pilha == NULL) {
+        return;
+    }
+
+    int topo = 0;
+    int atual = r->destino;
+
+    while (atual != -1) {
+        pilha[topo] = atual;
+        topo++;
+
+        if (atual == r->origem) {
+            break;
+        }
+
+        atual = r->anterior[atual];
+    }
+
+    printf("Caminho por vertices:\n");
+
+    for (int i = topo - 1; i >= 0; i--) {
+        int v = pilha[i];
+
+        printf("%s", g->vertices[v].id);
+
+        if (i > 0) {
+            printf(" -> ");
+        }
+    }
+
+    printf("\n\n");
+
+    printf("Detalhes do caminho:\n");
+
+    for (int i = topo - 1; i > 0; i--) {
+        int u = pilha[i];
+        int v = pilha[i - 1];
+
+        Aresta a = r->arestaAnterior[v];
+
+        if (a != NULL) {
+            printf(
+                "%s -> %s | rua: %s | comp: %.2lf | vel: %.2lf",
+                g->vertices[u].id,
+                g->vertices[v].id,
+                a->nomeRua,
+                a->comprimento,
+                a->velocidade
+            );
+
+            if (r->criterio == MENOR_DISTANCIA) {
+                printf(" | peso usado: %.2lf", a->comprimento);
+            } else {
+                printf(" | tempo usado: %.4lf", pesoAresta(a, MENOR_TEMPO));
+            }
+
+            printf("\n");
+        }
+    }
+
+    if (r->criterio == MENOR_DISTANCIA) {
+        printf("\nCusto total em distancia: %.2lf\n", r->custoTotal);
+    } else {
+        printf("\nCusto total em tempo: %.4lf\n", r->custoTotal);
+    }
+
+    free(pilha);
+}
+
+double getCustoResultado(ResultadoDijkstra resultado) {
+    if (resultado == NULL) {
+        return INF;
+    }
+
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    return r->custoTotal;
+}
+
+void liberaResultadoDijkstra(ResultadoDijkstra resultado) {
+    if (resultado == NULL) {
+        return;
+    }
+
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    free(r->anterior);
+    free(r->arestaAnterior);
+    free(r);
 }
