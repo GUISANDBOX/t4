@@ -1,5 +1,6 @@
 #ifndef GRAFO_H
 #define GRAFO_H
+#define INF 1e100
 
 typedef void *Grafo;
 typedef void *ResultadoDijkstra;

@@ -8,7 +8,7 @@ Grafo processaVia(FILE *arqvia_file) {
   char comando[100];
   int z;
   int numvertices;
-  char id[10], i[10], j[10], ldir[100], lesq[100], nome[100];
+  char id[100], i[100], j[100], ldir[100], lesq[100], nome[100];
   double x, y, cmp, vm;
 
   fscanf(arqvia_file, "%d", &numvertices);

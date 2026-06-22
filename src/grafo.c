@@ -6,7 +6,6 @@
 #define TAM_ID 64
 #define TAM_CEP 64
 #define TAM_RUA 128
-#define INF 1e100
 
 typedef struct sAresta *Aresta;
 

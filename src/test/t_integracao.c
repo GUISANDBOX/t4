@@ -29,8 +29,8 @@ void setUp(void) {
   adicionaAresta(grafo, "1", "2", "123456", "-", 30.0, 60.0, "Rua 1-2");
   adicionaAresta(grafo, "1", "4", "-", "123456", 40.0, 50.0, "Rua 1-4");
   adicionaAresta(grafo, "4", "5", "-", "123456", 25.0, 70.0, "Rua 4-5");
-  adicionaAresta(grafo, "2", "5", "123456", "789100", 25.0, 70.0, "Rua 2-5");
-  adicionaAresta(grafo, "2", "3", "789100", "-", 25.0, 70.0, "Rua 2-3");
+  adicionaAresta(grafo, "2", "5", "123456", "789100", 25.0, 150.0, "Rua 2-5");
+  adicionaAresta(grafo, "2", "3", "789100", "-", 25.0, 20.0, "Rua 2-3");
   adicionaAresta(grafo, "3", "6", "789100", "-", 30.0, 60.0, "Rua 3-6");
   adicionaAresta(grafo, "5", "6", "-", "789100", 40.0, 50.0, "Rua 5-6");
 }
@@ -141,19 +141,29 @@ void test_busca_grafo(void) {
   adicionaRegistrador(regs, "R2", getCep(q2), face, numero, px, py, vMaisProximo);
   int verticeR2 = getVerticeRegistrador(regs, "R2");
 
+  // Teste do algoritmo de Dijkstra para encontrar o caminho mais curto entre os registradores R1 e R2
   ResultadoDijkstra res = dijkstra(grafo, verticeR1, verticeR2, MENOR_DISTANCIA);
   TEST_ASSERT_TRUE(existeCaminho(res)); // Deve existir um caminho entre R1 e R2
   double custo = getCustoResultado(res);
+  TEST_ASSERT_FLOAT_WITHIN(1e-12, 85.00, custo); // O custo do caminho mais rápido deve ser 85.00
   imprimeCaminho(grafo, res);
 
   res = dijkstra(grafo, verticeR1, verticeR2, MENOR_TEMPO);
   TEST_ASSERT_TRUE(existeCaminho(res)); // Deve existir um caminho entre R1 e R2
   custo = getCustoResultado(res);
+  TEST_ASSERT_FLOAT_WITHIN(0.001, 1.4667, custo); // O custo do caminho mais rápido deve ser 1.4667
   imprimeCaminho(grafo, res);
 
   liberaResultadoDijkstra(res);
-  
 
+  // Teste do algoritmo de Dijkstra para encontrar o caminho mais curto entre os registradores R2 a R1
+  res = dijkstra(grafo, verticeR2, verticeR1, MENOR_DISTANCIA);
+  TEST_ASSERT_FALSE(existeCaminho(res)); // Não deve existir um caminho entre R2 e R1
+  custo = getCustoResultado(res);
+  TEST_ASSERT_FLOAT_WITHIN(1e-12, INF, custo); // O custo do caminho mais rápido deve ser 0.0
+  imprimeCaminho(grafo, res);
+  
+  liberaResultadoDijkstra(res);
 }
 
 
