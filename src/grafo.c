@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "criasvg.h"
 
 #define TAM_ID 64
 #define TAM_CEP 64
@@ -511,8 +512,143 @@ int existeCaminho(ResultadoDijkstra resultado) {
 
 void imprimeCaminho(
     Grafo grafo,
-    ResultadoDijkstra resultado
+    ResultadoDijkstra resultado,
+    FILE *arqtxt
 ) {
+    if (grafo == NULL || resultado == NULL) {
+        return;
+    }
+
+    GrafoInterno g = (GrafoInterno) grafo;
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    if (!existeCaminho(resultado)) {
+        printf("Nao existe caminho entre %s e %s\n",
+
+               g->vertices[r->origem].id,
+               g->vertices[r->destino].id);
+        if (arqtxt != NULL) {
+            fprintf(arqtxt, "Nao existe caminho entre %s e %s\n",
+                    
+                   g->vertices[r->origem].id,
+                   g->vertices[r->destino].id);
+        }
+        return;
+    }
+
+    int *pilha = malloc(r->qtdVertices * sizeof(int));
+
+    if (pilha == NULL) {
+        return;
+    }
+
+    int topo = 0;
+    int atual = r->destino;
+
+    while (atual != -1) {
+        pilha[topo] = atual;
+        topo++;
+
+        if (atual == r->origem) {
+            break;
+        }
+
+        atual = r->anterior[atual];
+    }
+
+    printf("Caminho por vertices:\n");
+    if (arqtxt != NULL) {
+        fprintf(arqtxt, "Caminho por vertices:\n");
+    }
+
+    for (int i = topo - 1; i >= 0; i--) {
+        int v = pilha[i];
+
+        printf("%s", g->vertices[v].id);
+        if (arqtxt != NULL) fprintf(arqtxt, "%s", g->vertices[v].id);
+
+        if (i > 0) {
+            printf(" -> ");
+            if (arqtxt != NULL) fprintf(arqtxt, " -> ");
+        }
+    }
+
+    printf("\n\n");
+    if (arqtxt != NULL) fprintf(arqtxt, "\n\n");
+
+    printf("Detalhes do caminho:\n");
+    if (arqtxt != NULL) fprintf(arqtxt, "Detalhes do caminho:\n");
+
+    for (int i = topo - 1; i > 0; i--) {
+        int u = pilha[i];
+        int v = pilha[i - 1];
+
+        Aresta a = r->arestaAnterior[v];
+
+        if (a != NULL) {
+            printf(
+                "%s -> %s | rua: %s | comp: %.2lf | vel: %.2lf",
+                g->vertices[u].id,
+                g->vertices[v].id,
+                a->nomeRua,
+                a->comprimento,
+                a->velocidade
+            );
+            if (arqtxt != NULL) fprintf(arqtxt, "%s -> %s | rua: %s | comp: %.2lf | vel: %.2lf",
+                    g->vertices[u].id,
+                    g->vertices[v].id,
+                    a->nomeRua,
+                    a->comprimento,
+                    a->velocidade
+                );
+
+            if (r->criterio == MENOR_DISTANCIA) {
+                printf(" | peso usado: %.2lf", a->comprimento);
+                if (arqtxt != NULL) fprintf(arqtxt, " | peso usado: %.2lf", a->comprimento);
+            } else {
+                printf(" | tempo usado: %.4lf", pesoAresta(a, MENOR_TEMPO));
+                if (arqtxt != NULL) fprintf(arqtxt, " | tempo usado: %.4lf", pesoAresta(a, MENOR_TEMPO));
+            }
+
+            printf("\n");
+            if (arqtxt != NULL) fprintf(arqtxt, "\n");
+        }
+    }
+
+    if (r->criterio == MENOR_DISTANCIA) {
+        printf("\nCusto total em distancia: %.2lf\n", r->custoTotal);
+        if (arqtxt != NULL) fprintf(arqtxt, "\nCusto total em distancia: %.2lf\n", r->custoTotal);
+    } else {
+        printf("\nCusto total em tempo: %.4lf\n", r->custoTotal);
+        if (arqtxt != NULL) fprintf(arqtxt, "\nCusto total em tempo: %.4lf\n", r->custoTotal);
+    }
+
+    free(pilha);
+}
+
+double getCustoResultado(ResultadoDijkstra resultado) {
+    if (resultado == NULL) {
+        return INF;
+    }
+
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    return r->custoTotal;
+}
+
+void liberaResultadoDijkstra(ResultadoDijkstra resultado) {
+    if (resultado == NULL) {
+        return;
+    }
+
+    ResultadoInterno r = (ResultadoInterno) resultado;
+
+    free(r->anterior);
+    free(r->arestaAnterior);
+    free(r);
+}
+
+void escreveCaminhoSVG(Grafo grafo, ResultadoDijkstra resultado, char* cor, FILE *arqsvg){
     if (grafo == NULL || resultado == NULL) {
         return;
     }
@@ -547,75 +683,18 @@ void imprimeCaminho(
         atual = r->anterior[atual];
     }
 
-    printf("Caminho por vertices:\n");
-
-    for (int i = topo - 1; i >= 0; i--) {
-        int v = pilha[i];
-
-        printf("%s", g->vertices[v].id);
-
-        if (i > 0) {
-            printf(" -> ");
-        }
-    }
-
-    printf("\n\n");
-
-    printf("Detalhes do caminho:\n");
-
     for (int i = topo - 1; i > 0; i--) {
         int u = pilha[i];
         int v = pilha[i - 1];
 
-        Aresta a = r->arestaAnterior[v];
-
-        if (a != NULL) {
-            printf(
-                "%s -> %s | rua: %s | comp: %.2lf | vel: %.2lf",
-                g->vertices[u].id,
-                g->vertices[v].id,
-                a->nomeRua,
-                a->comprimento,
-                a->velocidade
-            );
-
-            if (r->criterio == MENOR_DISTANCIA) {
-                printf(" | peso usado: %.2lf", a->comprimento);
-            } else {
-                printf(" | tempo usado: %.4lf", pesoAresta(a, MENOR_TEMPO));
-            }
-
-            printf("\n");
+        if(i==topo-1){
+            fprintf(arqsvg, "<text x=\"%lf\" y=\"%lf\" text-anchor=\"middle\" font-weight=\"bold\" >%s</text>\n", g->vertices[u].x, g->vertices[u].y - 10, "I");
         }
+
+        crialinha(g->vertices[u].x, g->vertices[u].y, g->vertices[v].x, g->vertices[v].y, arqsvg, cor);
     }
 
-    if (r->criterio == MENOR_DISTANCIA) {
-        printf("\nCusto total em distancia: %.2lf\n", r->custoTotal);
-    } else {
-        printf("\nCusto total em tempo: %.4lf\n", r->custoTotal);
-    }
+    fprintf(arqsvg, "<text x=\"%lf\" y=\"%lf\" text-anchor=\"middle\" font-weight=\"bold\" >%s</text>\n", g->vertices[r->destino].x, g->vertices[r->destino].y - 10, "F");
 
     free(pilha);
-}
-
-double getCustoResultado(ResultadoDijkstra resultado) {
-    if (resultado == NULL) {
-        return INF;
-    }
-
-    ResultadoInterno r = (ResultadoInterno) resultado;
-
-    return r->custoTotal;
-}
-
-void liberaResultadoDijkstra(ResultadoDijkstra resultado) {
-    if (resultado == NULL) {
-        return;
-    }
-
-    ResultadoInterno r = (ResultadoInterno) resultado;
-
-    free(r->anterior);
-    free(r->arestaAnterior);
-    free(r);
 }

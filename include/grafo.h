@@ -1,6 +1,7 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 #define INF 1e100
+#include <stdio.h>
 
 typedef void *Grafo;
 typedef void *ResultadoDijkstra;
@@ -48,7 +49,8 @@ ResultadoDijkstra dijkstra(
 
 void imprimeCaminho(
     Grafo g,
-    ResultadoDijkstra resultado
+    ResultadoDijkstra resultado,
+    FILE *arqtxt
 );
 
 double getCustoResultado(
@@ -64,6 +66,8 @@ void liberaResultadoDijkstra(
 );
 
 int getQuantidadeVertices(Grafo g);
+
+void escreveCaminhoSVG(Grafo g, ResultadoDijkstra resultado, char* cor, FILE *arqsvg);
 
 
 #endif

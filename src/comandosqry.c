@@ -40,6 +40,7 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
       double px, py;
       Quadra q = (Quadra)buscarHashItem(Hgeo, cep);
       calculaPontoEndereco(q, face, num, &px, &py);
+      crialinhapontilhada(px, py, arqsvg, reg);
       int vMaisProximo = verticeMaisProximo(grafo, px, py);
       printf("Vertice mais próximo: %d => %s\n", vMaisProximo, getIdVertice(grafo, vMaisProximo));
       adicionaRegistrador(regs, reg, cep, face, num, px, py, vMaisProximo);
@@ -59,16 +60,14 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
       fprintf(arqtxt, "Caminho entre %s (vertice %s) e %s (vertice %s):\n", reg1, getIdVertice(grafo, vertice1), reg2, getIdVertice(grafo, vertice2));
 
       if (existeCaminho(resdistancia)) {
-        fprintf(arqtxt, "Menor distancia: %.2lf\n", getCustoResultado(resdistancia));
-        fprintf(arqtxt, "Caminho: ");
-        imprimeCaminho(grafo, resdistancia);
+        imprimeCaminho(grafo, resdistancia, arqtxt);
+        escreveCaminhoSVG(grafo, resdistancia, cc, arqsvg);
       } else {
         fprintf(arqtxt, "Nao existe caminho mais curto entre %s e %s\n", reg1, reg2);
       }
       if (existeCaminho(restempo)) {
-        fprintf(arqtxt, "Menor tempo: %.2lf\n", getCustoResultado(restempo));
-        fprintf(arqtxt, "Caminho: ");
-        imprimeCaminho(grafo, restempo);
+        imprimeCaminho(grafo, restempo, arqtxt);
+        escreveCaminhoSVG(grafo, restempo, cr, arqsvg);
       } else {
         fprintf(arqtxt, "Nao existe caminho mais rapido entre %s e %s\n", reg1, reg2);
       }

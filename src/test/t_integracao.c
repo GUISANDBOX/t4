@@ -146,13 +146,13 @@ void test_busca_grafo(void) {
   TEST_ASSERT_TRUE(existeCaminho(res)); // Deve existir um caminho entre R1 e R2
   double custo = getCustoResultado(res);
   TEST_ASSERT_FLOAT_WITHIN(1e-12, 85.00, custo); // O custo do caminho mais rápido deve ser 85.00
-  imprimeCaminho(grafo, res);
+  imprimeCaminho(grafo, res, NULL);
 
   res = dijkstra(grafo, verticeR1, verticeR2, MENOR_TEMPO);
   TEST_ASSERT_TRUE(existeCaminho(res)); // Deve existir um caminho entre R1 e R2
   custo = getCustoResultado(res);
   TEST_ASSERT_FLOAT_WITHIN(0.001, 1.4667, custo); // O custo do caminho mais rápido deve ser 1.4667
-  imprimeCaminho(grafo, res);
+  imprimeCaminho(grafo, res, NULL);
 
   liberaResultadoDijkstra(res);
 
@@ -161,8 +161,8 @@ void test_busca_grafo(void) {
   TEST_ASSERT_FALSE(existeCaminho(res)); // Não deve existir um caminho entre R2 e R1
   custo = getCustoResultado(res);
   TEST_ASSERT_FLOAT_WITHIN(1e-12, INF, custo); // O custo do caminho mais rápido deve ser 0.0
-  imprimeCaminho(grafo, res);
-  
+  imprimeCaminho(grafo, res, NULL);
+
   liberaResultadoDijkstra(res);
 }
 
