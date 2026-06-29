@@ -683,18 +683,32 @@ void escreveCaminhoSVG(Grafo grafo, ResultadoDijkstra resultado, char* cor, FILE
         atual = r->anterior[atual];
     }
 
+    fprintf(arqsvg,  "<text x=\"%lf\" y=\"%lf\" text-anchor=\"middle\" font-weight=\"bold\" >%s</text>\n", g->vertices[r->origem].x, g->vertices[r->origem].y - 10, "I");
+
+    fprintf(arqsvg, "<path d=\"M ");
+
     for (int i = topo - 1; i > 0; i--) {
         int u = pilha[i];
         int v = pilha[i - 1];
 
-        if(i==topo-1){
-            fprintf(arqsvg, "<text x=\"%lf\" y=\"%lf\" text-anchor=\"middle\" font-weight=\"bold\" >%s</text>\n", g->vertices[u].x, g->vertices[u].y - 10, "I");
-        }
-
-        crialinha(g->vertices[u].x, g->vertices[u].y, g->vertices[v].x, g->vertices[v].y, arqsvg, cor);
+        fprintf(arqsvg, "%lf,%lf ", g->vertices[u].x, g->vertices[u].y);
     }
 
+    fprintf(arqsvg, "%lf,%lf ", g->vertices[r->destino].x, g->vertices[r->destino].y);
+
+    fprintf(arqsvg, "\" stroke=\"%s\" stroke-width=\"3\" fill=\"none\" id=\"%p\"/>\n", cor, resultado);
+
     fprintf(arqsvg, "<text x=\"%lf\" y=\"%lf\" text-anchor=\"middle\" font-weight=\"bold\" >%s</text>\n", g->vertices[r->destino].x, g->vertices[r->destino].y - 10, "F");
+
+    fprintf(arqsvg, "<circle r=\"20\" fill=\"%s\" >\n", cor);
+
+    fprintf(arqsvg, "<animateMotion dur=\"%lfs\" repeatCount=\"indefinite\">\n", r->custoTotal);
+
+    fprintf(arqsvg, "<mpath href=\"#%p\" />\n", resultado);
+
+    fprintf(arqsvg, "</animateMotion>\n");
+
+    fprintf(arqsvg, "</circle>");
 
     free(pilha);
 }

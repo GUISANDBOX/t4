@@ -7,8 +7,8 @@ typedef void *Grafo;
 typedef void *ResultadoDijkstra;
 
 typedef enum {
-    MENOR_DISTANCIA,
-    MENOR_TEMPO
+    MENOR_DISTANCIA, // 0
+    MENOR_TEMPO // 1
 } CriterioDijkstra;
 
 Grafo criaGrafo(int capacidadeVertices);

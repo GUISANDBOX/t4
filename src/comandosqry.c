@@ -44,6 +44,8 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
       int vMaisProximo = verticeMaisProximo(grafo, px, py);
       printf("Vertice mais próximo: %d => %s\n", vMaisProximo, getIdVertice(grafo, vMaisProximo));
       adicionaRegistrador(regs, reg, cep, face, num, px, py, vMaisProximo);
+      fprintf(arqtxt, "Coordenadas do registrador %s: (%.2lf, %.2lf)\n", reg, px, py);
+      fprintf(arqtxt, "\n");
 
     } else if (strcmp(comando, "mvm") == 0) {
       fscanf(arqqry, "%lf %lf %lf %lf %lf", &v, &x, &y, &w, &h);
