@@ -11,7 +11,7 @@ HashFile processaGeo(FILE *arqgeo, HashFile H, FILE *arqsvg) {
   double x, y, h, w;
   char cep[10], sw[100], cfill[100], cstrk[100];
 
-  fprintf(arqsvg, "<svg width=\"5000\" height=\"5000\" "
+  fprintf(arqsvg, "<svg width=\"15000\" height=\"10000\" "
                   "xmlns=\"http://www.w3.org/2000/svg\">\n");
 
   do {

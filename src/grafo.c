@@ -355,6 +355,7 @@ int getQuantidadeArestas(Grafo g) {
 /* Algoritmo de Dijkstra */
 struct sResultadoDijkstra {
     double custoTotal;
+    double tempoTotal;
 
     int origem;
     int destino;
@@ -412,7 +413,8 @@ ResultadoDijkstra dijkstra(
         return NULL;
     }
 
-    double *dist = malloc(n * sizeof(double));
+    double *dist = malloc(n * sizeof(double)); // Array de custo
+    double *tempo = malloc(n * sizeof(double)); // Array de tempo
     int *visitado = malloc(n * sizeof(int));
     int *anterior = malloc(n * sizeof(int));
     Aresta *arestaAnterior = malloc(n * sizeof(Aresta));
@@ -439,7 +441,7 @@ ResultadoDijkstra dijkstra(
     }
 
     dist[origem] = 0;
-
+    tempo[origem] = 0;
     for (int cont = 0; cont < n; cont++) {
         int u = -1;
         double menor = INF;
@@ -471,22 +473,29 @@ ResultadoDijkstra dijkstra(
             int v = atual->destino;
 
             double peso = pesoAresta(atual, criterio);
+            double tempoAresta = pesoAresta(atual, MENOR_TEMPO);
 
-            if (!visitado[v] && peso < INF / 2) {
+            if (!visitado[v] && peso < INF) {
                 double novaDist = dist[u] + peso;
+                double novoTempo = tempo[u] + tempoAresta;
 
                 if (novaDist < dist[v]) {
                     dist[v] = novaDist;
+                    tempo[v] = novoTempo;
                     anterior[v] = u;
                     arestaAnterior[v] = atual;
+                    
                 }
             }
 
             atual = atual->prox;
         }
     }
-
+    
     resultado->custoTotal = dist[destino];
+    resultado->tempoTotal = tempo[destino]/10;
+    printf("Custo total do caminho: %.2lf\n", resultado->custoTotal);
+    printf("Tempo total do caminho: %.4lf\n", resultado->tempoTotal);
     resultado->origem = origem;
     resultado->destino = destino;
     resultado->qtdVertices = n;
@@ -693,18 +702,20 @@ void escreveCaminhoSVG(Grafo grafo, ResultadoDijkstra resultado, char* cor, FILE
 
         fprintf(arqsvg, "%lf,%lf ", g->vertices[u].x, g->vertices[u].y);
     }
+    char idCaminho[20];
+    snprintf(idCaminho, sizeof(idCaminho), "%d%d%d%d", r->criterio, r->origem, r->destino, rand());
 
     fprintf(arqsvg, "%lf,%lf ", g->vertices[r->destino].x, g->vertices[r->destino].y);
 
-    fprintf(arqsvg, "\" stroke=\"%s\" stroke-width=\"3\" fill=\"none\" id=\"%p\"/>\n", cor, resultado);
+    fprintf(arqsvg, "\" stroke=\"%s\" stroke-width=\"3\" fill=\"none\" id=\"%s\"/>\n", cor, idCaminho);
 
     fprintf(arqsvg, "<text x=\"%lf\" y=\"%lf\" text-anchor=\"middle\" font-weight=\"bold\" >%s</text>\n", g->vertices[r->destino].x, g->vertices[r->destino].y - 10, "F");
 
     fprintf(arqsvg, "<circle r=\"20\" fill=\"%s\" >\n", cor);
 
-    fprintf(arqsvg, "<animateMotion dur=\"%lfs\" repeatCount=\"indefinite\">\n", r->custoTotal);
+    fprintf(arqsvg, "<animateMotion dur=\"%lfs\" repeatCount=\"indefinite\">\n", r->tempoTotal);
 
-    fprintf(arqsvg, "<mpath href=\"#%p\" />\n", resultado);
+    fprintf(arqsvg, "<mpath href=\"#%s\" />\n", idCaminho);
 
     fprintf(arqsvg, "</animateMotion>\n");
 

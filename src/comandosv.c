@@ -18,12 +18,12 @@ Grafo processaVia(FILE *arqvia_file) {
     if (z != 1)
       break;
 
-    printf("Lendo comando V: %s\n", comando);
+    //printf("Lendo comando V: %s\n", comando);
     if (strcmp(comando, "v") == 0) {
       fscanf(arqvia_file, "%s %lf %lf", id, &x, &y);
       adicionaVertice(grafo, id, x, y);
     }
-    printf("Lendo comando V: %s\n", comando);
+    //printf("Lendo comando V: %s\n", comando);
     if (strcmp(comando, "e") == 0) {
       fscanf(arqvia_file, "%s %s %s %s %lf %lf %s", i, j, ldir, lesq, &cmp, &vm,
              nome);

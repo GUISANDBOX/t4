@@ -17,7 +17,7 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
   double v, x, y, w, h, vl;
   Registradores regs = criaRegistradores(11);
 
-  fprintf(arqsvg, "<svg width=\"5000\" height=\"5000\" "
+  fprintf(arqsvg, "<svg width=\"15000\" height=\"10000\" "
                   "xmlns=\"http://www.w3.org/2000/svg\">\n");
 
   HashItem *listaQuadras = malloc(100000 * sizeof(HashItem));
