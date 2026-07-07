@@ -128,7 +128,6 @@ void test_vertice_mais_proximo(void) {
 }
 
 
-
 int main(void) {
   UNITY_BEGIN();
   RUN_TEST(test_cria_grafo);

@@ -49,6 +49,7 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
 
     } else if (strcmp(comando, "mvm") == 0) {
       fscanf(arqqry, "%lf %lf %lf %lf %lf", &v, &x, &y, &w, &h);
+      alteraVelocidade(grafo, v, x, y, w, h);
     } else if (strcmp(comando, "regs") == 0) {
       fscanf(arqqry, "%lf", &vl);
     } else if (strcmp(comando, "exp") == 0) {

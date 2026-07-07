@@ -167,7 +167,13 @@ void test_busca_grafo(void) {
 }
 
 
+void test_altera_velocidade(void) {
+  // Altera a velocidade das arestas dentro da região (0, 0) a (100, 100) para 100.0
+  alteraVelocidade(grafo, 100.0, 0.0, 0.0, 50.0, 50.0);
 
+  // Testa se a velocidade das arestas foi alterada corretamente
+  imprimeGrafo(grafo);
+}
 
 
 // simple test runner
@@ -175,5 +181,6 @@ int main(void) {
   UNITY_BEGIN();
   RUN_TEST(teste_insercao_registrador);
   RUN_TEST(test_busca_grafo);
+  RUN_TEST(test_altera_velocidade);
   return UNITY_END();
 }

@@ -65,9 +65,8 @@ void liberaResultadoDijkstra(
     ResultadoDijkstra resultado
 );
 
-int getQuantidadeVertices(Grafo g);
-
 void escreveCaminhoSVG(Grafo g, ResultadoDijkstra resultado, char* cor, FILE *arqsvg);
 
+void alteraVelocidade(Grafo g, double novaVelocidade, double x, double y, double w, double h);
 
 #endif

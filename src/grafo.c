@@ -723,3 +723,24 @@ void escreveCaminhoSVG(Grafo grafo, ResultadoDijkstra resultado, char* cor, FILE
 
     free(pilha);
 }
+
+void alteraVelocidade(Grafo g, double novaVelocidade, double x, double y, double w, double h) {
+    if (g == NULL) {
+        return;
+    }
+
+    GrafoInterno grafo = (GrafoInterno) g;
+
+    for (int i = 0; i < grafo->qtdVertices; i++) {
+        Aresta atual = grafo->vertices[i].listaAdj;
+
+        while (atual != NULL) {
+            int destino = atual->destino;
+            if( (grafo->vertices[i].x >= x && grafo->vertices[i].x <= x + w && grafo->vertices[i].y >= y && grafo->vertices[i].y <= y + h) &&
+                (grafo->vertices[destino].x >= x && grafo->vertices[destino].x <= x + w && grafo->vertices[destino].y >= y && grafo->vertices[destino].y <= y + h)) {
+                atual->velocidade = novaVelocidade;
+            }
+            atual = atual->prox;
+        }
+    }
+}
