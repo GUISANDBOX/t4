@@ -52,8 +52,12 @@ void processaQry(FILE *arqqry, HashFile Hgeo, Grafo grafo, FILE *arqtxt, FILE *a
       alteraVelocidade(grafo, v, x, y, w, h);
     } else if (strcmp(comando, "regs") == 0) {
       fscanf(arqqry, "%lf", &vl);
+      fprintf(arqtxt, "Existem %d componentes conexos\n\n", imprimeComponentesFortesVelocidade(grafo, vl, arqsvg));
     } else if (strcmp(comando, "exp") == 0) {
       fscanf(arqqry, "%lf", &vl);
+      ArvoreGeradora agm = calculaArvoreGeradoraMinimaVelocidade(grafo, vl);
+      imprimeArvoreGeradoraMinima(grafo, agm, arqsvg);
+      liberaArvoreGeradora(agm);
     } else if (strcmp(comando, "p?") == 0) {
       fscanf(arqqry, "%s %s %s %s", reg1, reg2, cc, cr);
       int vertice1 = getVerticeRegistrador(regs, reg1);

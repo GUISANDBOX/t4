@@ -20,7 +20,6 @@ void desenhaXvermelho(Quadra q, FILE *arq);
 /// @param reg nome do registrador associado à linha
 void crialinhapontilhada(double x, double y, FILE *arq, char *reg);
 
-void crialinha(double x1, double y1, double x2, double y2, FILE *arq, char *cor);
 /// @brief Cria uma linha no arquivo SVG
 /// @param x1 coordenada x do ponto inicial da linha
 /// @param y1 coordenada y do ponto inicial da linha
@@ -28,5 +27,6 @@ void crialinha(double x1, double y1, double x2, double y2, FILE *arq, char *cor)
 /// @param y2 coordenada y do ponto final da linha
 /// @param arq arquivo SVG onde a linha será criada
 /// @param cor cor da linha
+void crialinha(double x1, double y1, double x2, double y2, FILE *arq, char *cor);
 
 #endif

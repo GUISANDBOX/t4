@@ -744,3 +744,690 @@ void alteraVelocidade(Grafo g, double novaVelocidade, double x, double y, double
         }
     }
 }
+
+
+struct sTarjan {
+    int *indice;
+    int *menorIndice;
+    int *naPilha;
+    int *pilha;
+    int *componente;
+
+    int topo;
+    int proximoIndice;
+    int qtdComponentes;
+
+    double limiteVelocidade;
+};
+
+static void geraCorComponente(int indice, char *cor, size_t tamanho) {
+    unsigned int s0 = (unsigned int)(indice + 1) * 1103515245u + 12345u;
+    unsigned int s1 = (s0 ^ 0x9e3779b9u) * 2654435761u;
+    unsigned int s2 = (s1 ^ (s1 >> 16)) * 2246822519u;
+    unsigned int s3 = (s2 ^ (s2 >> 13)) * 3266489917u;
+    unsigned int valor = s3 ^ (s3 >> 16);
+
+    unsigned int r = (valor >> 24) & 0xFFu;
+    unsigned int g = (valor >> 16) & 0xFFu;
+    unsigned int b = (valor >> 8) & 0xFFu;
+
+    snprintf(cor, tamanho, "rgb(%u,%u,%u)", r, g, b);
+}
+
+static void tarjanVisita(
+    GrafoInterno g,
+    int u,
+    struct sTarjan *dados
+) {
+    dados->indice[u] = dados->proximoIndice;
+    dados->menorIndice[u] = dados->proximoIndice;
+    dados->proximoIndice++;
+
+    dados->pilha[dados->topo] = u;
+    dados->topo++;
+
+    dados->naPilha[u] = 1;
+
+    Aresta aresta = g->vertices[u].listaAdj;
+
+    while (aresta != NULL) {
+        /*
+         * Considera apenas arestas direcionadas u -> v
+         * cuja velocidade é inferior a vl.
+         */
+        if (aresta->velocidade < dados->limiteVelocidade) {
+            int v = aresta->destino;
+
+            if (dados->indice[v] == -1) {
+                tarjanVisita(g, v, dados);
+
+                if (dados->menorIndice[v] < dados->menorIndice[u]) {
+                    dados->menorIndice[u] = dados->menorIndice[v];
+                }
+            } else if (dados->naPilha[v]) {
+                if (dados->indice[v] < dados->menorIndice[u]) {
+                    dados->menorIndice[u] = dados->indice[v];
+                }
+            }
+        }
+
+        aresta = aresta->prox;
+    }
+
+    /*
+     * Se u é raiz de um componente fortemente conexo,
+     * desempilha todos os vértices desse componente.
+     */
+    if (dados->menorIndice[u] == dados->indice[u]) {
+        int v;
+
+        do {
+            dados->topo--;
+            v = dados->pilha[dados->topo];
+
+            dados->naPilha[v] = 0;
+            dados->componente[v] = dados->qtdComponentes;
+
+        } while (v != u);
+
+        dados->qtdComponentes++;
+    }
+}
+
+int *calculaComponentesFortesVelocidade(
+    Grafo grafo,
+    double vl,
+    int *qtdComponentes
+) {
+    if (grafo == NULL || qtdComponentes == NULL) {
+        return NULL;
+    }
+
+    GrafoInterno g = (GrafoInterno) grafo;
+
+    int n = g->qtdVertices;
+
+    *qtdComponentes = 0;
+
+    if (n == 0) {
+        return NULL;
+    }
+
+    struct sTarjan dados;
+
+    dados.indice = malloc(n * sizeof(int));
+    dados.menorIndice = malloc(n * sizeof(int));
+    dados.naPilha = malloc(n * sizeof(int));
+    dados.pilha = malloc(n * sizeof(int));
+    dados.componente = malloc(n * sizeof(int));
+
+    if (
+        dados.indice == NULL ||
+        dados.menorIndice == NULL ||
+        dados.naPilha == NULL ||
+        dados.pilha == NULL ||
+        dados.componente == NULL
+    ) {
+        free(dados.indice);
+        free(dados.menorIndice);
+        free(dados.naPilha);
+        free(dados.pilha);
+        free(dados.componente);
+
+        return NULL;
+    }
+
+    dados.topo = 0;
+    dados.proximoIndice = 0;
+    dados.qtdComponentes = 0;
+    dados.limiteVelocidade = vl;
+
+    for (int i = 0; i < n; i++) {
+        dados.indice[i] = -1;
+        dados.menorIndice[i] = -1;
+        dados.naPilha[i] = 0;
+        dados.componente[i] = -1;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (dados.indice[i] == -1) {
+            tarjanVisita(g, i, &dados);
+        }
+    }
+
+    *qtdComponentes = dados.qtdComponentes;
+
+    free(dados.indice);
+    free(dados.menorIndice);
+    free(dados.naPilha);
+    free(dados.pilha);
+
+    /*
+     * Não libera dados.componente porque ele será retornado.
+     */
+    return dados.componente;
+}
+
+int imprimeComponentesFortesVelocidade(
+    Grafo grafo,
+    double vl,
+    FILE *arqsvg
+) {
+    if (grafo == NULL) {
+        return -1;
+    }
+
+    int i = 0;
+
+    GrafoInterno g = (GrafoInterno) grafo;
+
+    int qtdComponentes = 0;
+
+    int *componentes = calculaComponentesFortesVelocidade(
+        grafo,
+        vl,
+        &qtdComponentes
+    );
+
+    if (componentes == NULL) {
+        printf("Erro ao calcular componentes fortemente conexos.\n");
+        return -1;
+    }
+
+    printf(
+        "Quantidade de componentes fortemente conexos com velocidade inferior a %.2lf: %d\n",
+        vl,
+        qtdComponentes
+    );
+
+    for (int c = 0; c < qtdComponentes; c++) {
+        int quantidadeVertices = 0;
+        int primeiroVertice = 1;
+
+        double minX = 0;
+        double minY = 0;
+        double maxX = 0;
+        double maxY = 0;
+
+        printf("Componente %d:", c);
+
+        for (int i = 0; i < g->qtdVertices; i++) {
+            if (componentes[i] == c) {
+                double x = g->vertices[i].x;
+                double y = g->vertices[i].y;
+
+                printf(" %s", g->vertices[i].id);
+
+                quantidadeVertices++;
+
+                if (primeiroVertice) {
+                    minX = x;
+                    maxX = x;
+                    minY = y;
+                    maxY = y;
+
+                    primeiroVertice = 0;
+                } else {
+                    if (x < minX) {
+                        minX = x;
+                    }
+
+                    if (x > maxX) {
+                        maxX = x;
+                    }
+
+                    if (y < minY) {
+                        minY = y;
+                    }
+
+                    if (y > maxY) {
+                        maxY = y;
+                    }
+                }
+            }
+        }
+
+        printf("\n");
+
+        if (quantidadeVertices > 1) {
+            double largura = maxX - minX;
+            double altura = maxY - minY;
+
+            if(largura == 0) {
+                largura = 10;
+            }
+
+            if(altura == 0) {
+                altura = 10;
+            }
+
+            printf(
+                "  Bounding box: x=%.2lf y=%.2lf largura=%.2lf altura=%.2lf\n",
+                minX,
+                minY,
+                largura,
+                altura
+            );
+
+            printf(
+                "  Limites: (%.2lf, %.2lf) ate (%.2lf, %.2lf)\n",
+                minX,
+                minY,
+                maxX,
+                maxY
+            );
+
+            if (arqsvg != NULL && largura > 0 && altura > 0) {
+                char corComponente[32];
+                geraCorComponente(c, corComponente, sizeof(corComponente));
+
+                fprintf(
+                    arqsvg,
+                    "  <rect x=\"%.2lf\" y=\"%.2lf\" width=\"%.2lf\" height=\"%.2lf\" "
+                    "fill=\"%s\" fill-opacity=\"0.5\" stroke=\"black\" stroke-width=\"1\"/>\n",
+                    minX,
+                    minY,
+                    largura,
+                    altura,
+                    corComponente
+                );
+                i++;
+            }
+        } else {
+            printf("  Componente unitario: bounding box nao gerado.\n");
+        }
+
+        printf("\n");
+    }
+
+    free(componentes);
+
+    return i;
+}
+
+
+struct sArestaAGM {
+    int origem;
+    int destino;
+
+    double comprimento;
+    double velocidade;
+    double peso;
+
+    char cepDir[TAM_CEP];
+    char cepEsq[TAM_CEP];
+    char nomeRua[TAM_RUA];
+
+    Aresta original;
+};
+
+struct sArvoreGeradora {
+    struct sArestaAGM *arestas;
+
+    int qtdVertices;
+    int qtdArestas;
+
+    int conexa;
+
+    double custoTotal;
+    double limiteVelocidade;
+
+};
+
+typedef struct sArvoreGeradora *ArvoreGeradoraInterna;
+
+struct sUnionFind {
+    int *pai;
+    int *rank;
+    int n;
+};
+
+typedef struct sUnionFind *UnionFind;
+
+static UnionFind criaUnionFind(int n) {
+    UnionFind uf = malloc(sizeof(struct sUnionFind));
+
+    if (uf == NULL) {
+        return NULL;
+    }
+
+    uf->pai = malloc(n * sizeof(int));
+    uf->rank = malloc(n * sizeof(int));
+
+    if (uf->pai == NULL || uf->rank == NULL) {
+        free(uf->pai);
+        free(uf->rank);
+        free(uf);
+        return NULL;
+    }
+
+    uf->n = n;
+
+    for (int i = 0; i < n; i++) {
+        uf->pai[i] = i;
+        uf->rank[i] = 0;
+    }
+
+    return uf;
+}
+
+static int findUnionFind(UnionFind uf, int x) {
+    if (uf->pai[x] != x) {
+        uf->pai[x] = findUnionFind(uf, uf->pai[x]);
+    }
+
+    return uf->pai[x];
+}
+
+static int unionUnionFind(UnionFind uf, int a, int b) {
+    int raizA = findUnionFind(uf, a);
+    int raizB = findUnionFind(uf, b);
+
+    if (raizA == raizB) {
+        return 0;
+    }
+
+    if (uf->rank[raizA] < uf->rank[raizB]) {
+        uf->pai[raizA] = raizB;
+    } else if (uf->rank[raizA] > uf->rank[raizB]) {
+        uf->pai[raizB] = raizA;
+    } else {
+        uf->pai[raizB] = raizA;
+        uf->rank[raizA]++;
+    }
+
+    return 1;
+}
+
+static void liberaUnionFind(UnionFind uf) {
+    if (uf == NULL) {
+        return;
+    }
+
+    free(uf->pai);
+    free(uf->rank);
+    free(uf);
+}
+
+static int comparaArestaAGM(
+    const void *a,
+    const void *b
+) {
+    const struct sArestaAGM *e1 = a;
+    const struct sArestaAGM *e2 = b;
+
+    if (e1->peso < e2->peso) {
+        return -1;
+    }
+
+    if (e1->peso > e2->peso) {
+        return 1;
+    }
+
+    return 0;
+}
+
+ArvoreGeradora calculaArvoreGeradoraMinimaVelocidade(
+    Grafo grafo,
+    double vl
+) {
+    if (grafo == NULL) {
+        return NULL;
+    }
+
+    GrafoInterno g = (GrafoInterno) grafo;
+
+    int n = g->qtdVertices;
+
+    if (n == 0) {
+        return NULL;
+    }
+
+    struct sArestaAGM *candidatas =
+        malloc(g->qtdArestas * sizeof(struct sArestaAGM));
+
+    if (candidatas == NULL) {
+        return NULL;
+    }
+
+    int qtdCandidatas = 0;
+
+    for (int u = 0; u < n; u++) {
+        Aresta atual = g->vertices[u].listaAdj;
+
+        while (atual != NULL) {
+            if (atual->velocidade < vl) {
+                candidatas[qtdCandidatas].origem = u;
+                candidatas[qtdCandidatas].destino = atual->destino;
+
+                candidatas[qtdCandidatas].comprimento = atual->comprimento;
+                candidatas[qtdCandidatas].velocidade = atual->velocidade;
+
+                /*
+                 * Critério da árvore mínima:
+                 * entre as arestas abaixo de vl,
+                 * escolhe as de menor comprimento.
+                 */
+                candidatas[qtdCandidatas].peso = atual->comprimento;
+
+                copiaString(
+                    candidatas[qtdCandidatas].cepDir,
+                    atual->cepDir,
+                    TAM_CEP
+                );
+
+                copiaString(
+                    candidatas[qtdCandidatas].cepEsq,
+                    atual->cepEsq,
+                    TAM_CEP
+                );
+
+                copiaString(
+                    candidatas[qtdCandidatas].nomeRua,
+                    atual->nomeRua,
+                    TAM_RUA
+                );
+
+                /*
+                 * Guarda o ponteiro para a aresta original,
+                 * para depois alterar sua velocidade.
+                 */
+                candidatas[qtdCandidatas].original = atual;
+
+                qtdCandidatas++;
+            }
+
+            atual = atual->prox;
+        }
+    }
+
+    qsort(
+        candidatas,
+        qtdCandidatas,
+        sizeof(struct sArestaAGM),
+        comparaArestaAGM
+    );
+
+    ArvoreGeradoraInterna agm =
+        malloc(sizeof(struct sArvoreGeradora));
+
+    if (agm == NULL) {
+        free(candidatas);
+        return NULL;
+    }
+
+    agm->arestas = malloc((n - 1) * sizeof(struct sArestaAGM));
+
+    if (agm->arestas == NULL) {
+        free(candidatas);
+        free(agm);
+        return NULL;
+    }
+
+    agm->qtdVertices = n;
+    agm->qtdArestas = 0;
+    agm->conexa = 0;
+    agm->custoTotal = 0;
+    agm->limiteVelocidade = vl;
+
+    UnionFind uf = criaUnionFind(n);
+
+    if (uf == NULL) {
+        free(candidatas);
+        free(agm->arestas);
+        free(agm);
+        return NULL;
+    }
+
+    for (int i = 0; i < qtdCandidatas; i++) {
+        int u = candidatas[i].origem;
+        int v = candidatas[i].destino;
+
+        if (unionUnionFind(uf, u, v)) {
+            /*
+             * Adiciona a aresta na AGM.
+             */
+            agm->arestas[agm->qtdArestas] = candidatas[i];
+            agm->qtdArestas++;
+
+            agm->custoTotal += candidatas[i].peso;
+
+            /*
+             * Aumenta a velocidade da aresta original em 50%.
+             */
+            if (candidatas[i].original != NULL) {
+                candidatas[i].original->velocidade *= 1.5;
+            }
+
+            /*
+             * Atualiza também a cópia guardada na AGM,
+             * para impressão sair com o valor novo.
+             */
+            agm->arestas[agm->qtdArestas - 1].velocidade *= 1.5;
+
+            if (agm->qtdArestas == n - 1) {
+                break;
+            }
+        }
+    }
+
+    if (agm->qtdArestas == n - 1) {
+        agm->conexa = 1;
+    } else {
+        agm->conexa = 0;
+    }
+
+    liberaUnionFind(uf);
+    free(candidatas);
+
+    return agm;
+}
+
+
+double getCustoArvoreGeradora(
+    ArvoreGeradora arvore
+) {
+    if (arvore == NULL) {
+        return 0;
+    }
+
+    ArvoreGeradoraInterna agm = (ArvoreGeradoraInterna) arvore;
+
+    return agm->custoTotal;
+}
+
+int getQuantidadeArestasArvore(
+    ArvoreGeradora arvore
+) {
+    if (arvore == NULL) {
+        return 0;
+    }
+
+    ArvoreGeradoraInterna agm = (ArvoreGeradoraInterna) arvore;
+
+    return agm->qtdArestas;
+}
+
+int arvoreGeradoraEhConexa(
+    ArvoreGeradora arvore
+) {
+    if (arvore == NULL) {
+        return 0;
+    }
+
+    ArvoreGeradoraInterna agm = (ArvoreGeradoraInterna) arvore;
+
+    return agm->conexa;
+}
+
+void liberaArvoreGeradora(
+    ArvoreGeradora arvore
+) {
+    if (arvore == NULL) {
+        return;
+    }
+
+    ArvoreGeradoraInterna agm = (ArvoreGeradoraInterna) arvore;
+
+    free(agm->arestas);
+    free(agm);
+}
+
+void imprimeArvoreGeradoraMinima(
+    Grafo grafo,
+    ArvoreGeradora arvore,
+    FILE *arqsvg
+) {
+    if (grafo == NULL || arvore == NULL) {
+        return;
+    }
+
+    GrafoInterno g = (GrafoInterno) grafo;
+    ArvoreGeradoraInterna agm = (ArvoreGeradoraInterna) arvore;
+
+    printf("\nArvore Geradora Minima\n");
+
+    printf(
+        "Limite de velocidade: %.2lf\n",
+        agm->limiteVelocidade
+    );
+
+    if (agm->conexa) {
+        printf("Resultado: arvore geradora conexa\n");
+    } else {
+        printf("Resultado: grafo desconexo, foi gerada uma floresta\n");
+    }
+
+    printf("Arestas selecionadas: %d\n", agm->qtdArestas);
+    printf("Custo total: %.4lf\n\n", agm->custoTotal);
+
+    for (int i = 0; i < agm->qtdArestas; i++) {
+        int u = agm->arestas[i].origem;
+        int v = agm->arestas[i].destino;
+
+        printf(
+            "%s -- %s | rua: %s | comp: %.2lf | vel: %.2lf | peso: %.4lf\n",
+            g->vertices[u].id,
+            g->vertices[v].id,
+            agm->arestas[i].nomeRua,
+            agm->arestas[i].comprimento,
+            agm->arestas[i].velocidade,
+            agm->arestas[i].peso
+        );
+
+        if (arqsvg != NULL) {
+            fprintf(
+                arqsvg,
+                "<line x1=\"%.2lf\" y1=\"%.2lf\" "
+                "x2=\"%.2lf\" y2=\"%.2lf\" "
+                "stroke=\"red\" stroke-width=\"2\" />\n",
+                g->vertices[u].x,
+                g->vertices[u].y,
+                g->vertices[v].x,
+                g->vertices[v].y
+            );
+        }
+    }
+
+    printf("\n");
+}

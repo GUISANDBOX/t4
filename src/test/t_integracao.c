@@ -168,6 +168,9 @@ void test_busca_grafo(void) {
 
 
 void test_altera_velocidade(void) {
+
+  imprimeComponentesFortesVelocidade(grafo, 50.0, NULL); // Antes de alterar a velocidade, imprime os componentes fortemente conexos com limite de velocidade 100.0
+
   // Altera a velocidade das arestas dentro da região (0, 0) a (100, 100) para 100.0
   alteraVelocidade(grafo, 100.0, 0.0, 0.0, 50.0, 50.0);
 
